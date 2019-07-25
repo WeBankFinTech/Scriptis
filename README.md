@@ -1,3 +1,8 @@
+Scriptis
+============
+
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
 ## Introduction
 
 Scriptis is for interactive data analysis with script development(SQL, Pyspark, HiveQL), task submission(Spark, Hive), UDF, function, resource management and intelligent diagnosis.
@@ -21,14 +26,15 @@ Scriptis is for interactive data analysis with script development(SQL, Pyspark, 
 
 ## QuickStart
 
-Read the Quick Start.
+Read the Quick Start [Quick Start](/docs/en_US/ch3/Scriptest_Quick_Start.md)
 
-## Architecture
-
-Based on the core technology of willink, multiple compute engines are available on Scriptest.
+## Comparison with similar scheduler systems
+![Comparison](/docs/en_US/images/readme/Comparison.png)
 
 ## Community
 
+![WeChat](/docs/en_US/images/wechat.jpg)
+
 ## License
 
-[Scriptest is under the Apache 2.0 license. See the LICENCSEN file for details]((http://www.apache.org/licenses/LICENSE-2.0))
+[Scriptis is under the Apache 2.0 license. See the LICENCSEN file for details]((http://www.apache.org/licenses/LICENSE-2.0))
