@@ -5,11 +5,6 @@ Vue.mixin({
     data: function() {
         return {
             SUPPORTED_LANG_MODES: [
-                { rule: /意书/, executable: true, logo: 'fi-data-develop' },
-                { rule: /数据交换/, executable: true, logo: 'fi-data-exchange' },
-                { rule: /可视化BI/, executable: true, logo: 'fi-bi' },
-                { rule: /资源/, executable: true },
-                { rule: /算法/, executable: true },
                 { rule: /\.(bi)$/i, executable: false, logo: 'fi-bi', isCanBeNew: false, isCanBeOpen: true },
                 { rule: /\.(sql)$/i, lang: 'hql', executable: true, application: 'spark', runType: 'sql', ext: '.sql', scriptType: 'hive', abbr: 'sql', logo: 'fi-spark', isCanBeNew: true, label: 'Sql', isCanBeOpen: true },
                 { rule: /\.(hql)$/i, lang: 'hql', executable: true, application: 'hive', runType: 'hql', ext: '.hql', scriptType: 'hql', abbr: 'hql', logo: 'fi-hive', isCanBeNew: true, label: 'Hive', isCanBeOpen: true },
