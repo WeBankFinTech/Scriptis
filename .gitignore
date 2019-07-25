@@ -1,0 +1,10 @@
+.DS_Store
+.vscode
+.cache
+.idea/
+
+node_modules/
+dist/
+
+.package-lock.json
+.env.development

@@ -1,0 +1,83 @@
+@import '~@assets/styles/variables.scss';
+.we-import-to-hive {
+    height: 480px;
+    padding: 20px;
+    padding-top: 0;
+    color: #787878;
+    position: relative;
+    overflow: auto;
+    .we-import-to-hive-steps{
+        padding-bottom: 10px;
+    }
+
+    .we-import-to-hive-form {
+        .step-progress {
+            height: 500px;
+            position: absolute;
+            width: 740px;
+            display: flex;
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.3);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-form-title {
+            font-size: 16px;
+            color: #409eff;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .step-form-field {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .step-form-extras {
+            margin-top: 10px;
+            margin-left: 5px;
+        }
+
+        .seconed-Form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step-form-type-supplement {
+            margin-left: 157px;
+        }
+
+        .item-auto-complete {
+            .ivu-select-dropdown-list {
+                height: 300px;
+            }
+        }
+        .form-item-help-icon{
+            position: absolute;
+            left: -12px;
+            top: 10px;
+        }
+        .step-form-fields {
+            display: inline-flex;
+            .form-item-inline{
+                width: 220px;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.we-import-to-hive-errmsg {
+    color: red;
+    position: absolute;
+    left: 24px;
+    font-size: 12px;
+    display: inline-block;
+    width: 380px;
+    text-align: left;
+}
+
+.ivu-auto-complete.ivu-select-dropdown{
+    max-height: 120px;
+}

@@ -1,0 +1,41 @@
+@import '../../../assets/styles/variables.scss';
+
+.layout-footer{
+    position: $fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0 40px;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    background: $body-background;
+    overflow: hidden;
+    box-shadow: $shadow-up;
+}
+
+.footer-channel {
+    position: $absolute;
+    right: 10px;
+    bottom: 3px;
+    width: 100px;
+    height: 34px;
+    border: $border-width-base $border-style-base $border-color-base ;
+    border-radius: $border-radius-small;
+    box-shadow: $shadow-base;
+    background-image: linear-gradient(39deg, $background-color-select-hover 0%, $background-color-base 100%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .footer-channel-job {
+        color: $success-color;
+        font-weight: 900;
+        margin-right: 5px;
+    }
+    .footer-channel-job-num {
+        font-size: $font-size-small;
+        color: $text-color;
+    }
+}
