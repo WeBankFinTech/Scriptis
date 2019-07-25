@@ -136,7 +136,7 @@ import weImportToHive from '@js/component/importToHive';
 import deleteDialog from '@js/component/deleteDialog';
 const PREFIX = 'hdfs://';
 export default {
-    name: 'WorkSidebar',
+    name: 'HdfsSidebar',
     components: {
         weFileTree,
         weNavbar,
