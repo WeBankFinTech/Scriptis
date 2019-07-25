@@ -1,4 +1,5 @@
 ## 目录结构
+```
 app
 ├── assets  
 │   ├── iconfont    // 字体文件，图标
@@ -43,7 +44,7 @@ app
 ├── webpack.base.js     // webpack的基础配置
 ├── webpack.dev.js      // 执行`mn2 dev`命令的webpack配置
 └── webpack.prod.js     // 执行`mn2 gen`命令的webpack配置
-
+```
 ## 模块
 模块应该是独立的，跟外界无耦合的。内部由业务组件和UI组件组成，组件之间共享统一状态容器。模块和模块之间通过事件机制来交互。
 
