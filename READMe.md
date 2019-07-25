@@ -1,17 +1,23 @@
 ## Introduction
 
-Scriptest is an interactive tool for data exploration and analysis, designed to make it easy for user to utilize compute engines like Spark, Hive and TiSpark. It provides graphically-enhanced interface which enable users to better conduct data analysis and exploitation.
+Scriptis is for interactive data analysis with script development(SQL, Pyspark, HiveQL), task submission(Spark, Hive), UDF, function, resource management and intelligent diagnosis.
 
 ## Features
 
 * Script editor: Support multi-language, auto-completion, syntax highlighting and SQL syntax error-correction.
 
-* Compute engines: Based on willink, Scriptest allows you use multiple compute engines such as Spark, Hive, TiSpark, etc.
-* Runtime function: Capable of displaying the life cycle of jobs and make intelligent diagnosis.
-* Result set: Can be more than one. Allow custom alias and one-click publishing to report system. 
-* Database Services: Provide an integrated solution for data management. Files(CVS, Excel) can be easily import to and export from tables.
-* Context: UDF, custom variables along with function management and sharing.
-* Console: Allow users feel free to set parameters of engines. Job management, session management and resource management are also provided.
+* Computation engines: Based on Linkis, Scriptis connects with multiple computation engines such as Spark, Hive, Python, etc.
+
+* Runtime functionality: Complete job life cycle display and intelligent diagnosis.
+
+* Result set: Multiple result sets support, customized result set alias and one-click visualization. 
+
+* Database Services: Functionalities for database management and files(CVS, Excel) import/export to/from tables.
+
+* Context: UDFs, custom variables and functions management and sharing.
+
+* Console: Customized settings for engine parameters, task/engine management and resource isolation/display.
+
 
 ## QuickStart
 
