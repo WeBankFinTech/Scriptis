@@ -1,0 +1,7 @@
+.we-file-tree {
+    &.is-empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
