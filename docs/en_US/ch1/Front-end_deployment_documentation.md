@@ -1,4 +1,4 @@
-Scriptis is a data analysis tool based on Linkis. Before deploying Scriptis, you need to deploy Linkis first. For the Linkis deploy document, see: [Linkis DeployDoc]()
+Scriptis is a data analysis tool based on Linkis. Before deploying Scriptis, you need to deploy Linkis first. For the Linkis deploy document, see: [Linkis DeployDoc](https://github.com/WeBankFinTech/Linkis/blob/master/docs/en_US/ch1/deploy.md)
 
 ## 1 Preparation
 
