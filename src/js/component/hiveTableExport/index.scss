@@ -1,0 +1,40 @@
+.we-table-export-minus {
+    float: right;
+    font-size: 24px;
+    padding-right: 20px;
+    color: #9f99a8;
+    cursor: pointer;
+}
+
+.we-table-export {
+    height: 420px;
+    padding-top: 20px;
+    color: #787878;
+    position: relative;
+
+    .we-table-export-step {
+        margin-left: 20px;
+    }
+
+    .v-step-progress {
+        height: 343px;
+        position: absolute;
+        width: 100%;
+        display: flex;
+        z-index: 999;
+        background-color: rgba(0, 0, 0, 0.3);
+        align-items: center;
+        justify-content: center;
+        border-radius: 3px;
+    }
+
+    .we-table-export-form {
+        margin-top: 20px;
+        height: 370px;
+        overflow-y: auto;
+
+        .item-width {
+            width: 360px;
+        }
+    }
+}

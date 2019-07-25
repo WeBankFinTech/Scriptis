@@ -1,0 +1,89 @@
+$border-color          : #e0e0e0;
+.we-table{
+    position: relative;
+    border-right: 1px solid $border-color;
+    thead th{
+        background-color: rgb(94, 157, 224);
+        color: #fff;
+    }
+}
+.we-table-header{
+    background-color: rgb(94, 157, 224);
+    color: #fff;
+    ul{
+        white-space: nowrap;
+        border-bottom: 1px solid $border-color;
+    }
+    li{
+        text-align: center;
+        display: inline-block;
+        .we-table-header-content {
+            cursor: pointer;
+        }
+    }
+}
+.caret-wrapper{
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 34px;
+    width: 24px;
+    vertical-align: middle;
+    cursor: pointer;
+    overflow: initial;
+    position: relative;
+}
+.we-table-outflow{
+    position: absolute;
+    top: 0;
+    left:0px;
+    overflow: hidden;
+}
+.we-table-sort-caret{
+    width: 0;
+    height: 0;
+    border: 5px solid transparent;
+    position: absolute;
+    &.ascending{
+        border-bottom-color: #c0c4cc;
+        top: 5px;
+    }
+
+    &.descending{
+        border-top-color: #c0c4cc;
+        bottom: 7px;
+    }
+
+    &.we-table-sort.descending{
+        border-top-color: #fff;
+    }
+
+    &.we-table-sort.ascending{
+        border-bottom-color: #fff;
+    }
+}
+.we-column{
+    text-align: center;
+    border-bottom: 1px solid $border-color;
+}
+.we-column-item{
+    height: 42px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid $border-color;
+    padding: 12px 0 12px 10px;
+    &.odd{
+        background: rgb(250, 250, 250)
+    }
+    &.even{
+        background: rgb(255, 255, 255)
+    }
+    &.is-null {
+        color: red;
+        font-style: italic;
+    }
+}

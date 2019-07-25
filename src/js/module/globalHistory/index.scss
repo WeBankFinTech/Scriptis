@@ -1,0 +1,143 @@
+@import '../../../assets/styles/variables.scss';
+.render-btn {
+    color: #515a6e;
+    background-color: transparent;
+    border-color: transparent;
+    padding: 1px 7px 2px;
+    font-size: 12px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    border-radius: 4px;
+    transition: color .2s linear,background-color .2s linear,border .2s linear,box-shadow .2s linear;
+    &:hover {
+        color: #57a3f3;
+        background-color: #fff;
+        border-color: transparent;
+        text-decoration: none;
+    }
+}
+.progress-wrap {
+    position: $relative;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 10px;
+    background: $background-color-base;
+    border-radius: 10px;
+    .progress-busy {
+        background: $success-color;
+        height: 100%;
+        border-radius: 10px;
+        position: $absolute;
+        z-index: 0;
+    }
+    .progress-label {
+        width: 100%;
+        z-index: 1;
+    }
+}
+.global-history {
+    position: $relative;
+    .ivu-form {
+        display: flex;
+        .ivu-form-item {
+            margin-bottom: 10px;
+            .ivu-form-item-content {
+                display: flex !important;
+            }
+        }
+    }
+    .global-history-table {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .ivu-table th {
+            background-color: $table-thead-blue-bg;
+            color: $body-background;
+        }
+        .we-table-wrap {
+            overflow: auto;
+            display: block;
+            .we-table {
+                border: $border-width-base $border-style-base $border-color-base;
+                table-layout: fixed;
+                .we-table-thead {
+                    background-color: $table-thead-blue-bg;
+                    color: $body-background;
+                    .we-table-thead-cell {
+                        border-right: 1px solid $border-color-base;
+                        border-bottom: 1px solid $border-color-base;
+                        min-width: 0;
+                        height: 48px;
+                        box-sizing: border-box;
+                        text-align: left;
+                        text-overflow: ellipsis;
+                        vertical-align: middle;
+                    }
+                }
+                .we-table-row {
+                    height: 40px;
+                    &:nth-child(2n) {
+                        background-color: #f8f8f9;
+                    }
+                    &:hover {
+                        background-color: #ebf7ff;
+                    }
+                    .we-table-row-cell {
+                        border-right: 1px solid $border-color-base;
+                        border-bottom: 1px solid $border-color-base;
+                        min-width: 0;
+                        height: 48px;
+                        box-sizing: border-box;
+                        text-align: left;
+                        text-overflow: ellipsis;
+                        vertical-align: middle;
+                        .we-table-row-label {
+                            line-height: 20px;
+                            padding-left: 18px;
+                            padding-right: 18px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: normal;
+                            word-break: break-all;
+                            -webkit-box-sizing: border-box;
+                            box-sizing: border-box;
+                            &.ellipsis {
+                                text-align: left;
+                                word-break: keep-all;
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .global-history-loading {
+        width: 100%;
+        position: $absolute;
+        z-index: $zindex-modal;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: ani-demo-spin 1s linear infinite;
+    }
+    .divider {
+        margin-top: 7px;
+        height: 20px;
+    }
+    .global-history-page {
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+}
