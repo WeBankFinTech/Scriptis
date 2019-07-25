@@ -18,7 +18,7 @@ Scriptis是一款支持写SQL、Pyspark、HiveQL等脚本，提交给Spark、Hiv
 
 **计算引擎**：基于Linkis对接多计算引擎：Spark、Hive、TiSpark等；
 
-**运行时功能**：Job全生命周期展示、Job智能诊断、错误码；
+**运行时功能**：Job全生命周期展示、错误码；
 ![运行时功能](images/readme/running.gif)
 **上下文**：UDF和函数管理、函数共享、自定义变量；
 ![上下文](images/readme/cs.gif)
