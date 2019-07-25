@@ -1,0 +1,28 @@
+@import '../../../assets/styles/variables.scss';
+
+.we-panel{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    &.we-panel-horizontal{
+        .we-panel-dash{
+            cursor: ew-resize;
+        }
+    }
+    &.we-panel-vertical{
+        .we-panel-dash{
+            cursor: ns-resize;
+        }
+    }
+}
+
+.we-panel-item{
+    position: absolute;
+    background: #fff;
+}
+
+.we-panel-dash{
+    position: absolute;
+    background: transparent;
+    z-index: $zindex-drawer;
+}
