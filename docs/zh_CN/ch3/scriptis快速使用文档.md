@@ -4,7 +4,7 @@ Scriptis(意书)快速使用文档
 ## 快速登录
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为了方便用户使用，系统默认通过使用Linkis的部署用户名进行登录，比如是hadoop部署的可以直接通过 用户：hadoop，密码：hadoop(密码就是用户名)来进行登录。
 首先输入前端容器地址：192.168.xx.xx:8888 接着输入用户名密码：hadoop/hadoop
-![01](/images/ch3/01.png)
+![01](../images/ch3/01.png)
 __备注：__ 其他用户登录必须使用配置的LDAP的密码进行登录
 
 ## 设置队列
