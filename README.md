@@ -35,8 +35,11 @@ Read the Quick Start [Quick Start](/docs/en_US/ch3/Scriptis_Quick_Start.md)
 
 ## Community
 WeChat:
+
 ![WeChat](/docs/en_US/images/wechat.jpg)
+
 QQ User Group:872767532
+
 ## License
 
 [Scriptis is under the Apache 2.0 license. See the LICENCSEN file for details]((http://www.apache.org/licenses/LICENSE-2.0))
