@@ -3,6 +3,8 @@ Scriptis
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
+[English](docs/en_US/README.md) | [Chinese](docs/zh_CN/README.md)
+
 ## Introduction
 
 Scriptis is for interactive data analysis with script development(SQL, Pyspark, HiveQL), task submission(Spark, Hive), UDF, function, resource management and intelligent diagnosis.
@@ -26,15 +28,15 @@ Scriptis is for interactive data analysis with script development(SQL, Pyspark, 
 
 ## QuickStart
 
-Read the Quick Start [Quick Start](/docs/en_US/ch3/Scriptest_Quick_Start.md)
+Read the Quick Start [Quick Start](/docs/en_US/ch3/Scriptis_Quick_Start.md)
 
 ## Comparison with similar scheduler systems
 ![Comparison](/docs/en_US/images/readme/Comparison.png)
 
 ## Community
-
+WeChat:
 ![WeChat](/docs/en_US/images/wechat.jpg)
-
+QQ User Group:872767532
 ## License
 
 [Scriptis is under the Apache 2.0 license. See the LICENCSEN file for details]((http://www.apache.org/licenses/LICENSE-2.0))
