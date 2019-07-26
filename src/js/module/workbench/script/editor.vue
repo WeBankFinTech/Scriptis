@@ -45,7 +45,7 @@
           <span class="navbar-item-name">保存</span>
         </div>
         <div
-          v-if="!script.readOnly && !isHdfs"
+          v-if="!script.readOnly && !isHdfs && isSupport"
           class="workbench-body-navbar-item"
           @click="config">
           <Icon type="ios-build" />
@@ -114,6 +114,9 @@ export default {
         isHdfs() {
             return this.work.filepath.indexOf('hdfs') === 0;
         },
+        isSupport() {
+            return this.script.executable;
+        }
     },
     watch: {
         listenResource(val) {
