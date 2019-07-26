@@ -45,8 +45,9 @@ export default {
             });
         },
         showHive(arg, cb) {
-            const Hive = Vue.extend(require('./hiveSidebar.vue'));
-            const newW = new Hive();
+            const hive = require('./hiveSidebar.vue');
+            const HiveComp = Vue.extend(hive.default);
+            const newW = new HiveComp();
             cb(newW);
         },
     },
