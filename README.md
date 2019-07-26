@@ -34,11 +34,9 @@ Read the Quick Start [Quick Start](/docs/en_US/ch3/Scriptis_Quick_Start.md)
 ![Comparison](/docs/en_US/images/readme/Comparison.png)
 
 ## Community
-If you desire immediate response, please kindly raise issues to us or scan the below QR code by WeChat to join our group:
+If you desire immediate response, please kindly raise issues to us or scan the below QR code by WeChat and QQ to join our group:
 
-![WeChat](/docs/en_US/images/wechat.jpg)
-
-QQ  Group:872767532
+![WeChatQQ](/docs/en_US/images/wechatQQ.png)
 
 ## License
 
