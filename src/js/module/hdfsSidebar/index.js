@@ -13,8 +13,9 @@ export default {
     },
     methods: {
         showTree(arg, cb) {
-            const WorkSpace = Vue.extend(require('./hdfsSidebar.vue'));
-            const newW = new WorkSpace();
+            const ws = require('./hdfsSidebar.vue');
+            const WSComp = Vue.extend(ws.default);
+            const newW = new WSComp();
             cb(newW);
         },
     },
