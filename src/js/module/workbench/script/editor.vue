@@ -112,7 +112,7 @@ export default {
             return this.script.running;
         },
         isHdfs() {
-            return this.work.filepath.indexOf('/tmp') === 7;
+            return this.work.filepath.indexOf('hdfs') === 0;
         },
     },
     watch: {
