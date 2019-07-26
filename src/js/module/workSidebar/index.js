@@ -14,8 +14,9 @@ export default {
     methods: {
         showTree(arg, cb) {
             // get tree
-            const WorkSpace = Vue.extend(require('./workSidebar.vue'));
-            const newW = new WorkSpace();
+            const ws = require('./workSidebar.vue');
+            const WSComp = Vue.extend(ws.default);
+            const newW = new WSComp();
             cb(newW);
         },
     },

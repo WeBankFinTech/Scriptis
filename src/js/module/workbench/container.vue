@@ -116,7 +116,7 @@ import util from '@/js/util';
 import title from './title.vue';
 import body from './body.vue';
 import saveAs from './script/saveAs.vue';
-import {Work} from './modal.js';
+import { Work } from './modal.js';
 import _ from 'lodash';
 
 export default {
@@ -148,7 +148,7 @@ export default {
                 rightTab: 0,
             },
             isControlBtnShow: false,
-            tips: '什么是Scriptis(意书)？\n意书是微众银行微数域(WeDataSphere)打造的一站式交互式数据探索分析工具，以任意桥(Linkis)做为内核，提供多种计算存储引擎(如Spark、Hive、TiDB等)、Hive数据库管理功能、资源(如Yarn资源、服务器资源)管理、应用管理和各种用户资源(如UDF、变量等)管理的能力。\n如何使用Scriptest(意书)？\n1. 选中工作空间的目录，创建文件夹；\n2. 右键某个文件夹 =>新建脚本；\n3. 选择脚本类型，如：SQL、Pyspark、HQL等；\n4. 书写脚本，点击执行，生成结果集；\n5. 结果集左上角，点击【可视化】，生成可视化的图报表。',
+            tips: '什么是Scriptis(意书)？\n意书是微众银行微数域(WeDataSphere)打造的一站式交互式数据探索分析工具，以任意桥(Linkis)做为内核，提供多种计算存储引擎(如Spark、Hive、TiSpark等)、Hive数据库管理功能、资源(如Yarn资源、服务器资源)管理、应用管理和各种用户资源(如UDF、变量等)管理的能力。\n如何使用Scriptest(意书)？\n1. 选中工作空间的目录，创建文件夹；\n2. 右键某个文件夹 =>新建脚本；\n3. 选择脚本类型，如：SQL、Pyspark、HQL等；\n4. 书写脚本，点击执行，生成结果集。',
             isTopPanelFull: false,
             loading: false,
         };
@@ -161,7 +161,7 @@ export default {
     watch: {
         current(val, oldVal) {
             if (oldVal) {
-                this.dispatch('Workbench:setResultCache', {id: oldVal});
+                this.dispatch('Workbench:setResultCache', { id: oldVal });
                 this.revealInSidebar();
             }
         },
@@ -217,7 +217,7 @@ export default {
                         });
                     });
                     // 在获取到hive信息后再打开缓存的tab页信息
-                    this.getWorkList({list: []}).then(() => {
+                    this.getWorkList({ list: [] }).then(() => {
                         this.openQueryTab();
                         this.$nextTick(() => {
                             this.loading = false;
@@ -268,7 +268,7 @@ export default {
                     }
                     // 这种情况适用于初始化系统是/consle，然后打开全局历史的查看
                     // 必须打开缓存的tab后再打开从全局历史传递来的query，否在无法被选中
-                    this.getWorkList({list: cache.tabList}).then(() => {
+                    this.getWorkList({ list: cache.tabList }).then(() => {
                         this.openQueryTab();
                         this.$nextTick(() => {
                             this.loading = false;
@@ -280,7 +280,7 @@ export default {
                 }
             });
         },
-        getWorkList({list}) {
+        getWorkList({ list }) {
             return new Promise((resolve, reject) => {
                 this.dispatch('IndexedDB:getTabs', (worklist) => {
                     worklist.forEach((work) => {
@@ -329,7 +329,7 @@ export default {
                 });
             }
             // 如果已经在tabs中，则打开
-            let repeatWork = _.find(this.worklist, (work) => work.id==option.id);
+            let repeatWork = _.find(this.worklist, (work) => work.id == option.id);
             let work = null;
             if (!repeatWork) {
                 if (this.worklist.length >= 10) {
@@ -438,17 +438,17 @@ export default {
         'Workbench:saveAs'(work) {
             this.$refs.saveAs.open(work);
         },
-        'Workbench:updateTab'({newNode, findWork, oldLabel}, cb) {
+        'Workbench:updateTab'({ newNode, findWork, oldLabel }, cb) {
             const work = findWork || _.find(this.worklist, (work) => {
                 return work.filename === oldLabel;
             });
             if (work) {
                 const newKey = util.md5(newNode.path);
-                const modifyLog = this.dispatch('IndexedDB:changeLogKey', {oldKey: work.id, newKey});
-                const modifyHistory = this.dispatch('IndexedDB:changeHistoryKey', {oldKey: work.id, newKey});
-                const modifyResult = this.dispatch('IndexedDB:changResultKey', {oldKey: work.id, newKey});
-                const modifyProgress = this.dispatch('IndexedDB:changProgressKey', {oldKey: work.id, newKey});
-                const modifyTab = this.dispatch('IndexedDB:changeTabKey', {oldKey: work.id, newKey});
+                const modifyLog = this.dispatch('IndexedDB:changeLogKey', { oldKey: work.id, newKey });
+                const modifyHistory = this.dispatch('IndexedDB:changeHistoryKey', { oldKey: work.id, newKey });
+                const modifyResult = this.dispatch('IndexedDB:changResultKey', { oldKey: work.id, newKey });
+                const modifyProgress = this.dispatch('IndexedDB:changProgressKey', { oldKey: work.id, newKey });
+                const modifyTab = this.dispatch('IndexedDB:changeTabKey', { oldKey: work.id, newKey });
                 Promise.all([modifyLog, modifyHistory, modifyResult, modifyProgress, modifyTab]).then(() => {
                     setTimeout(() => {
                         // 在重命名成功后重新打开tab；
@@ -518,8 +518,8 @@ export default {
          * @return {Promise}
          */
         removeWork(work) {
-            return new Promise((resolve, reject)=>{
-                let doRemove = ()=>{
+            return new Promise((resolve, reject) => {
+                let doRemove = () => {
                     let index = this.worklist.indexOf(work);
                     if (index != -1) {
                         this.worklist.splice(index, 1);
@@ -565,20 +565,20 @@ export default {
                 if (work.unsave) {
                     this.chooseWork(work);
                     this.showCloseModal = true;
-                    this.closeModal.cancel = ()=> {
+                    this.closeModal.cancel = () => {
                         this.showCloseModal = false;
                         this.close = new Function();
                         this.save = new Function();
                         this.saveAs = new Function();
                         resolve();
                     },
-                    this.closeModal.close = ()=> {
+                    this.closeModal.close = () => {
                         this.showCloseModal = false;
                         doRemove();
                     };
                     if (!work.saveAs) {
                         this.closeModal.text = `脚本 ${work.filename} 已发生改变，是否保存？`;
-                        this.closeModal.save = ()=>{
+                        this.closeModal.save = () => {
                             this.showCloseModal = false;
                             this.dispatch('Workbench:save', work);
                             doRemove();
@@ -588,7 +588,7 @@ export default {
                         const scriptText = work.type === 'hdfsScript' ? `只读脚本 ${work.filename} 已发生改变，是否另存至工作空间？` : `临时脚本 ${work.filename} 已发生改变，是否另存为文件？`;
                         this.closeModal.text = scriptText;
                         this.closeModal.save = null;
-                        this.closeModal.saveAs = ()=>{
+                        this.closeModal.saveAs = () => {
                             this.dispatch('Workbench:saveAs', work);
                         };
                     }
@@ -615,7 +615,7 @@ export default {
                     needCloseTabs = this.worklist.slice(0);
                     break;
                 case 'left':
-                    for (let i=0; i<this.workListLength; i++) {
+                    for (let i = 0; i < this.workListLength; i++) {
                         if (this.worklist[i].id != this.current) {
                             needCloseTabs.push(this.worklist[i]);
                         } else {
@@ -624,7 +624,7 @@ export default {
                     }
                     break;
                 case 'right':
-                    for (let i=this.workListLength-1; i>0; i--) {
+                    for (let i = this.workListLength - 1; i > 0; i--) {
                         if (this.worklist[i].id != this.current) {
                             needCloseTabs.push(this.worklist[i]);
                         } else {
@@ -667,7 +667,7 @@ export default {
 
         // 获取高亮的方法名
         getMethodName(args) {
-            let {type, isInvert} = args;
+            let { type, isInvert } = args;
             const lib = {
                 workspaceScript: 'WorkSidebar:setHighLight',
                 hdfsScript: 'HdfsSidebar:setHighLight',
@@ -767,7 +767,7 @@ export default {
             }
         },
         revealInSidebar(work) {
-            let currentWork = work || this.worklist.find((item)=>item.id===this.current);
+            let currentWork = work || this.worklist.find((item) => item.id === this.current);
             if (currentWork) {
                 this.dispatch('WorkSidebar:revealInSideBar', currentWork);
             }
@@ -776,4 +776,3 @@ export default {
 };
 </script>
 <style src="./index.scss" lang="scss"></style>
-

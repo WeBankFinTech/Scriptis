@@ -757,9 +757,9 @@ export default {
                 scriptContent: this.script.data,
                 params: this.formatParams(this.script.params),
             };
-            const isHdfs = this.work.filepath.indexOf('/tmp');
+            const isHdfs = this.work.filepath.indexOf('hdfs') === 0;
             if (this.script.data) {
-                if (this.work.unsave && isHdfs !== 0) {
+                if (this.work.unsave && !isHdfs) {
                     if (this.work.filepath) {
                         this.work.unsave = false;
                         this.saveLoading = true;
