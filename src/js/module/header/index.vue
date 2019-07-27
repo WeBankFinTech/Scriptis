@@ -1,7 +1,11 @@
 <template>
   <div class="layout-header">
     <div class="logo">
-      WeDataSphere
+      <span class="logo-main-titile">Scriptis</span>
+      <span class="logo-sub-title">
+        <span>@Powered by </span>
+        <span class="logo-sub-title-main">Linkis</span>
+      </span>
     </div>
     <ul class="menu">
       <li
@@ -11,7 +15,7 @@
         class="menu-item"
         @click="goto(item.path)">
         <span>{{ item.name }}</span>
-        
+
       </li>
     </ul>
     <div
@@ -52,7 +56,7 @@ export default {
     data() {
         return {
             sys: [{
-                name: '意书',
+                name: '开发',
                 path: 'Home',
             }, {
                 name: '管理台',
