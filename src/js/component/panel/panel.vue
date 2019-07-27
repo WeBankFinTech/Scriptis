@@ -103,7 +103,7 @@ export default {
                     }
                 });
                 this.items.forEach((element) => {
-                    if (!element.width) {
+                    if (element && !element.width) {
                         element.currentWidth = this.readyToAllocationWidth / this.readyToAllocationItemLength;
                     }
                 });

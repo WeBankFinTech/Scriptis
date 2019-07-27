@@ -8,6 +8,8 @@ $border-color          : #e0e0e0;
     }
 }
 .we-table-header{
+    height: 40px;
+    line-height: 40px;
     background-color: rgb(94, 157, 224);
     color: #fff;
     ul{
@@ -21,6 +23,22 @@ $border-color          : #e0e0e0;
             cursor: pointer;
         }
     }
+}
+.list-header .list-view-item{
+    color: #fff;
+    border-right: 1px solid #e8eaec;
+}
+.we-column-item{
+    border-right: 1px solid #e8eaec;
+    &.null-text {
+        color: #ed4014;
+    }
+    &.active {
+        background-color: #ebf7ff;
+    }
+}
+.header-list::-webkit-scrollbar{
+    display: none;
 }
 .caret-wrapper{
     display: -ms-inline-flexbox;
@@ -40,7 +58,11 @@ $border-color          : #e0e0e0;
     position: absolute;
     top: 0;
     left:0px;
-    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+.we-table-body{
+    height: calc(100% - 40px);
 }
 .we-table-sort-caret{
     width: 0;
