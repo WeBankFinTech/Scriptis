@@ -44,6 +44,11 @@ Scriptis是一款支持在线写SQL、Pyspark、HiveQL等脚本，提交给**Lin
 ### 同类系统对比：
 ![对比图](images/readme/对比.png)
 
+## 社区
+如果您想得到最快的响应，请给我们提issue，或者您也可以扫码进群：
+
+![WeChatQQ](/docs/en_US/images/wechatQQ.png)
+
 ### 文档：
 * [部署手册](ch1/前台部署文档.md)
 * [前台编译手册](ch2/编译文档.md)
