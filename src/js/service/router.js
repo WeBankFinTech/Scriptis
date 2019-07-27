@@ -8,7 +8,7 @@ const router = new VueRouter({
             redirect: '/home',
             component: Layout,
             meta: {
-                title: 'DWS',
+                title: 'Scriptis',
                 publicPage: true, // 权限公开
             },
             children: [
@@ -16,7 +16,7 @@ const router = new VueRouter({
                     path: 'home',
                     name: 'Home',
                     meta: {
-                        title: 'DWS',
+                        title: 'Scriptis',
                         keepAlive: true, // 需要被缓存
                         publicPage: true, // 权限公开
                     },
@@ -74,7 +74,7 @@ const router = new VueRouter({
         {
             path: '*',
             meta: {
-                title: 'DWS',
+                title: 'Scriptis',
                 publicPage: true,
             },
             component: () => import('../view/404.vue'),
@@ -96,7 +96,7 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
     console.log('访问：', to.fullPath);
     if (to.meta) {
-        document.title = to.meta.title || 'DWS';
+        document.title = to.meta.title || 'Scriptis';
     }
 });
 

@@ -20,7 +20,7 @@ export default {
         path: '/Demo',
         name: 'Demo',
         meta: {
-            title: 'DWS | Demo',
+            title: 'Scriptis | Demo',
             publicPage: false,
         },
         component: () => import('./index.vue'),
