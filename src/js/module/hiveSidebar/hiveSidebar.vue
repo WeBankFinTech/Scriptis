@@ -88,7 +88,7 @@ import weHiveTableDescribe from '@js/component/hiveTableDescribe';
 import WeHiveTableExport from '@js/component/hiveTableExport';
 import deleteDialog from '@js/component/deleteDialog';
 export default {
-    name: 'WorkSidebar',
+    name: 'HiveSidebar',
     components: {
         weHiveList,
         weHiveTableDescribe,
