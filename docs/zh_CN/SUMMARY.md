@@ -6,6 +6,6 @@
 * [第二章 前台编译 ]()
     * [前台编译手册](ch2/编译文档.md)
 * [第三章 快速使用手册 ]()
-    * [意书快速使用手册](ch3/scriptis快速使用文档.md)
+    * [scriptis快速使用手册](ch3/scriptis快速使用文档.md)
 * [第四章 使用手册 ]()
-    * [意书使用手册](ch4/Scriptis使用手册.md)
+    * [scriptis快速使用手册](ch4/Scriptis使用手册.md)

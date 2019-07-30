@@ -10,9 +10,6 @@ let logoList = [
     { rule: /\.r$/i, logo: 'fi-r' },
     { rule: /\.txt$/i, logo: 'fi-txt' },
     { rule: /\.log$/i, logo: 'fi-log' },
-    { rule: /意书/, logo: 'fi-data-develop' },
-    { rule: /数据交换/, logo: 'fi-data-exchange' },
-    { rule: /可视化BI/, logo: 'fi-bi' },
 ];
 
 /**

@@ -36,7 +36,7 @@
             <i
               class="job-manager-item-icon"
               :class="getIconClass(item)"></i>
-            <span class="job-manager-item-label">{{ item.fileName || (item.requestApplicationName === 'IDE' ? '未知脚本名称' : '知画脚本') }}</span>
+            <span class="job-manager-item-label">{{ item.fileName || '未知脚本名称' }}</span>
             <span class="job-manager-item-progress-label">{{ item.progress ? (item.progress * 100).toFixed(2) + '%' : '' }}</span>
             <Icon
               size="16"
@@ -101,7 +101,7 @@ export default {
                 status: 'Running,Inited,Scheduled',
             }, 'get').then((rst) => {
                 this.dispatch('Footer:updateRunningJob', rst.tasks.length);
-                this.jobTypeList = [{ 'en': 'IDE', 'cn': '意书' }, { 'en': 'VanGogh', 'cn': '知画' }];
+                this.jobTypeList = [{ 'en': 'IDE', 'cn': '开发' }];
                 rst.tasks.forEach((item, index) => {
                     const tmpItem = Object.assign({}, item, { isActive: false });
                     this.jobList.push(tmpItem);
