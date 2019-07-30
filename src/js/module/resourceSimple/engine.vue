@@ -8,7 +8,7 @@
       class="engine-content"
       v-if="ideEngineList.length > 0">
       <div class="engine-header-bar">
-        <h3 class="data-type-title">意书</h3>
+        <h3 class="data-type-title">scriptis</h3>
         <div class="classify">
           <span>分类</span>
           <Select v-model="ideSelectData">
