@@ -8,3 +8,4 @@ dist/
 
 package-lock.json
 .env.development
+wedatasphere-scriptis-*.zip
