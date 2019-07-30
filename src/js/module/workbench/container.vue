@@ -135,10 +135,10 @@ export default {
             current: '',
             closeModal: {
                 text: '',
-                cancel: new Function(),
-                close: new Function(),
-                save: new Function(),
-                saveAs: new Function(),
+                cancel: function() {},
+                close: function() {},
+                save: function() {},
+                saveAs: function() {},
             },
             showCloseModal: false,
             userName: '',
@@ -148,7 +148,7 @@ export default {
                 rightTab: 0,
             },
             isControlBtnShow: false,
-            tips: '什么是Scriptis(意书)？\n意书是微众银行微数域(WeDataSphere)打造的一站式交互式数据探索分析工具，以任意桥(Linkis)做为内核，提供多种计算存储引擎(如Spark、Hive、TiSpark等)、Hive数据库管理功能、资源(如Yarn资源、服务器资源)管理、应用管理和各种用户资源(如UDF、变量等)管理的能力。\n如何使用Scriptest(意书)？\n1. 选中工作空间的目录，创建文件夹；\n2. 右键某个文件夹 =>新建脚本；\n3. 选择脚本类型，如：SQL、Pyspark、HQL等；\n4. 书写脚本，点击执行，生成结果集。',
+            tips: '什么是Scriptis(意书)？\n意书是微众银行微数域(WeDataSphere)打造的一站式交互式数据探索分析工具，以任意桥(Linkis)做为内核，提供多种计算存储引擎(如Spark、Hive、TiSpark等)、Hive数据库管理功能、资源(如Yarn资源、服务器资源)管理、应用管理和各种用户资源(如UDF、变量等)管理的能力。\n如何使用Scriptis(意书)？\n1. 选中工作空间的目录，创建文件夹；\n2. 右键某个文件夹 =>新建脚本；\n3. 选择脚本类型，如：SQL、Pyspark、HQL等；\n4. 书写脚本，点击执行，生成结果集。',
             isTopPanelFull: false,
             loading: false,
         };
@@ -565,13 +565,14 @@ export default {
                 if (work.unsave) {
                     this.chooseWork(work);
                     this.showCloseModal = true;
+                    // eslint-disable-next-line no-unused-expressions
                     this.closeModal.cancel = () => {
                         this.showCloseModal = false;
-                        this.close = new Function();
-                        this.save = new Function();
-                        this.saveAs = new Function();
+                        this.close = function() {};
+                        this.save = function() {};
+                        this.saveAs = function() {};
                         resolve();
-                    },
+                    };
                     this.closeModal.close = () => {
                         this.showCloseModal = false;
                         doRemove();
