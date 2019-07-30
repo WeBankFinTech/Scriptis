@@ -135,10 +135,10 @@ export default {
             current: '',
             closeModal: {
                 text: '',
-                cancel: new Function(),
-                close: new Function(),
-                save: new Function(),
-                saveAs: new Function(),
+                cancel: function() {},
+                close: function() {},
+                save: function() {},
+                saveAs: function() {},
             },
             showCloseModal: false,
             userName: '',
@@ -565,13 +565,14 @@ export default {
                 if (work.unsave) {
                     this.chooseWork(work);
                     this.showCloseModal = true;
+                    // eslint-disable-next-line no-unused-expressions
                     this.closeModal.cancel = () => {
                         this.showCloseModal = false;
-                        this.close = new Function();
-                        this.save = new Function();
-                        this.saveAs = new Function();
+                        this.close = function() {};
+                        this.save = function() {};
+                        this.saveAs = function() {};
                         resolve();
-                    },
+                    };
                     this.closeModal.close = () => {
                         this.showCloseModal = false;
                         doRemove();
