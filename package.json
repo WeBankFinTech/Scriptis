@@ -1,10 +1,11 @@
 {
   "name": "scriptis",
-  "version": "0.1.0",
+  "version": "0.5.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "release": "node release.js",
     "lint": "vue-cli-service lint",
     "fix": "eslint --ext .js,.vue src --fix"
   },
@@ -32,6 +33,7 @@
     "@vue/cli-plugin-eslint": "^3.8.0",
     "@vue/cli-service": "^3.8.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "archiver": "^3.0.3",
     "babel-eslint": "^10.0.1",
     "copy-webpack-plugin": "^4.5.2",
     "eslint": "^5.16.0",
