@@ -9,7 +9,7 @@
         :model="loginForm"
         :rules="ruleInline">
         <FormItem>
-          <span class="login-title">欢迎登录DataWorkShop系统！</span>
+          <span class="login-title">欢迎登录Scriptis系统！</span>
         </FormItem>
         <FormItem prop="user">
           <Input
