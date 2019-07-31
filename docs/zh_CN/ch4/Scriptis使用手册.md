@@ -107,11 +107,8 @@ def helloWorld(str:  String):  String  =  "hello, "  + str
 运行结果包括以下功能：
 1. 表格结果展示，点击表头可以进行排序，双击复制字段名等，功能会继续丰富，包括选择列展示，展示字段类型。只支持展示5000行
 2. 可视化分析：点击可视化分析，可以通过VSBI对产生的结果集进行可视化展示（待开源）
-![ide21](../images/ch4/ide21.png)
 3. 下载：结果集支持直接下载到浏览器本地，支持CSV和excel，只支持下载5000行
 4. 导出：结果集导出可以支持导出到工作空间（BDAP的共享目录），结果集导出也支持CSV和Excel格式，并且通过打开全量导出，可以超过5000行的限制。全量导出开关，在执行的sql前面加上注释：`--set wds.linkis.engine.no.limit.allow=true`
-5. 导出的CSV和Excel格式通过在管理台--设置--pipeline--导入导出设置--结果集导出类型：excel或者CSV
-![ide22](../images/ch4/ide22.png)
 
 ## 8 脚本历史
 
