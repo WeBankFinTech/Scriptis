@@ -1,4 +1,4 @@
-Scriptis(意书)快速使用文档
+Scriptis快速使用文档
 ============
 
 ## 快速登录
@@ -8,7 +8,7 @@ Scriptis(意书)快速使用文档
 __备注：__ 其他用户登录必须使用配置的LDAP的密码进行登录
 
 ## 设置队列
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;意书的Spark引擎是通过On yarn进行运行的，为了能够使用Spark，必须要在意书配置一个部署用户能够使用的队列，配置步骤为点击管理台-->设置-->yarn队列名-->输入有权限的yarn 队列名
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scriptis的Spark引擎是通过开发-->设置-->yarn队列名-->输入有权限的yarn 队列名
 ![02](../images/ch3/02.png)
 
 ## 创建脚本

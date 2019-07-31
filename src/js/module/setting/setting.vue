@@ -70,7 +70,7 @@ export default {
         return {
             menuList: [{
                 name: '2',
-                title: '意书',
+                title: 'scriptis',
                 icon: 'ios-people',
                 children: [{
                     name: 'IDE-spark',
