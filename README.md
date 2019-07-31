@@ -9,6 +9,8 @@ Scriptis
 
 Scriptis is for interactive data analysis with script development(SQL, Pyspark, HiveQL), task submission(Spark, Hive), UDF, function, resource management and intelligent diagnosis.
 
+![运行时功能](docs/zh_CN/images/readme/running.gif)
+
 ## Features
 
 * Script editor: Support multi-language, auto-completion, syntax highlighting and SQL syntax error-correction.
@@ -34,11 +36,9 @@ Read the Quick Start [Quick Start](/docs/en_US/ch3/Scriptis_Quick_Start.md)
 ![Comparison](/docs/en_US/images/readme/Comparison.png)
 
 ## Community
-If you desire immediate response, please kindly raise issues to us or scan the below QR code by WeChat to join our group:
+If you desire immediate response, please kindly raise issues to us or scan the below QR code by WeChat and QQ to join our group:
 
-![WeChat](/docs/en_US/images/wechat.jpg)
-
-QQ  Group:872767532
+![WeChatQQ](/docs/en_US/images/wechatQQ.png)
 
 ## License
 

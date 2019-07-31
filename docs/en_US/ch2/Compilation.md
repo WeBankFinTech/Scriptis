@@ -13,14 +13,14 @@ Install Node.js on your computer. Download Link:  [http://nodejs.cn/download/](h
 Run the following commands in terminal:
 
 ```
-git clone http://git.weoa.com/pes/wds-ide
+git clone https://github.com/WeBankFinTech/Scriptis.git
 cd wds-ide
 npm install
 ```
 
  Commands explanation:
 
-1. Pull remote repository to local:	`git clone http://git.weoa.com/pes/wds-ide`
+1. Pull remote repository to local:	`git clone https://github.com/WeBankFinTech/Scriptis.git`
 
 2. Change to the root directory of the project:	`cd wds-ide`
 

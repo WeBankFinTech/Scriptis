@@ -152,15 +152,12 @@ This module has the following functions:
 
 2. Visual analysis:  Click on visual analysis button to visualize the result through VSBI.  (Soon to be released)
 
-![ide21](../images/ch4/ide21.png)
-
 3. Downloading:  Users can directly download the results as csv and excel files to local browser. Only support downloading 5000 lines for now. 
 
 4. Exporting:  Results can be exported to the workspace (shared directory of BDAP) in either csv or excel format and would not be restricted to 5000 lines if you choose full export at first. To use full export, add a comment in front of sql: `--set wds.linkis.engine.no.limit.allow=true`
 
 5. Go to Console--Configuration--Pipeline--Import and Export settings--Result export type to choose whether export results in csv format or excel format.  
 
-![ide22](../images/ch4/ide22.png)
 ## 8 Script History 
 
 Script history shows all the running information of the script. A user can quickly find the log and running results of a script that was run before and therefore, avoid running the same script repeatedly. 
