@@ -2,25 +2,44 @@ Scriptis is a data analysis tool based on Linkis. Before deploying Scriptis, you
 
 ## 1 Preparation
 
-### （1）Click release to select the corresponding installation package to download
+1. Select the corresponding installation package to download.
 
-### （2）Unzip the downloaded installation package
+2. Unzip the downloaded installation package in the installation directory: unzip wedatasphere-scriptis-0.5.0-dist.zip.
 
 ## 2 Deploy
 
-### (1) Install Nginx
+​	There are two deployment methods, automated and manual deployment.  
 
-```
-sudo yum install nginx -y
-```
+### 2.1 Automated deployment
 
-### (2) Create an Nginx configuration file (you can modify the file name by yourself)
-
-```
-sudo vi /etc/nginx/conf.d/scriptis.conf
-```
+Go to the frontend directory ```wedatasphere-scriptis``` and edit ```vi config.sh ``` to change the interface address of the frontend and backend port. backend port interface address is the gateway address of linkis. 
 
 ### (3) Modify and save the configuration file created above
+
+```
+# Configuring front-end ports
+scriptis_port="8088"
+
+# URL of the backend linkis gateway
+linkis_url="http://localhost:20401"
+
+# Scriptis ip address
+scriptis_ipaddr=$(ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(.*)\/(.*)/, "\\1", "g", $2)}')
+```
+
+After the modification, run the following command in the directory: ```sudo sh install.sh > install.log 2>&1```
+
+Next, you can access ```http://scriptis_ipaddr:scriptis_port``` directly via Chrome, scriptis_port is the port configured in config.sh and scriptis_ipaddr is the IP of the machine that used for installation. 
+
+If encounter access failure,  please check install.log and find out the errors.
+
+### 2.2 Manual deployment
+
+1. Install Nginx: ```sudo yum install nginx -y```
+
+2. Modify the configuration file:```sudo vi /etc/nginx/conf.d/scriptis.conf```
+
+   Add the following:
 
 ```
 server {
@@ -29,17 +48,18 @@ server {
             #charset koi8-r;
             #access_log  /var/log/nginx/host.access.log  main;
             location / {
-            root   /appcom/Install/scriptis/ROOT; # decompression directory
+            root   /appcom/Install/scriptis/ROOT; # directory where package decompressed 
+            #in the fronted
             index  index.html index.html;
             }
-            location /ws {#webSocket configuration support 
-            proxy_pass http://192.168.xxx.xxx:9001;# IP port of the linkis-gateway service
+            location /ws {#webSocket configure spport 
+            proxy_pass http://192.168.xxx.xxx:9001;#IP port of the linkis gateway service
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
             }
             location /api {
-            proxy_pass http://192.168.xxx.xxx:9001; # IP port of the linkis-gateway service
+            proxy_pass http://192.168.xxx.xxx:9001;#IP port of the linkis gateway service
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header x_real_ipP $remote_addr;
@@ -62,33 +82,31 @@ server {
         }
 ```
 
-## 3 Start Service
+3. Copy the frontend package to the corresponding directory: ```/appcom/Install/scriptis/ROOT; # directory where package decompressed in the frontend```
+4. Start service: ```sudo systemctl restart nginx```
+5. You can directly access ```http://nginx_ip:nginx_port``` via Chrome after execution. 
 
-```
-sudo systemctl restart nginx
-```
+## 3 FAQs
 
-## 4 FAQs
-
-### (1) limitations on the size of files that being uploaded
+(1) limitations on the size of files that being uploaded 
 
 ```
 sudo vi /etc/nginx/nginx.conf
 ```
 
-Change the uploading size
+Change the uploading size:
 
 ```
 client_max_body_size 200m
 ```
 
-### (2) Interface timeout
+(2) Interface timeout
 
 ```
 sudo vi /etc/nginx/conf.d/scriptis.conf
 ```
 
-Change the time of interface timeout
+Change the interface timeout:
 
 ```
 proxy_read_timeout 600s
