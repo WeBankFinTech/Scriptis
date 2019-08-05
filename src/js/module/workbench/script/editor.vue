@@ -37,7 +37,7 @@
           <span class="navbar-item-name">停止</span>
         </div>
         <div
-          v-if="!script.readOnly && !isHdfs"
+          v-if="!script.readOnly"
           class="workbench-body-navbar-item"
           title="Ctrl+S"
           @click="save">
@@ -45,7 +45,7 @@
           <span class="navbar-item-name">保存</span>
         </div>
         <div
-          v-if="!script.readOnly && !isHdfs && isSupport"
+          v-if="!script.readOnly && isSupport"
           class="workbench-body-navbar-item"
           @click="config">
           <Icon type="ios-build" />
@@ -110,9 +110,6 @@ export default {
     computed: {
         listenResource() {
             return this.script.running;
-        },
-        isHdfs() {
-            return this.work.filepath.indexOf('hdfs') === 0;
         },
         isSupport() {
             return this.script.executable;
