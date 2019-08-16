@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-import {trim, filter, forEach} from 'lodash';
+import { trim, filter, forEach } from 'lodash';
 import api from '@/js/service/api';
 import util from '@/js/util';
 
@@ -134,7 +134,7 @@ export default {
                         }, 'get').then((rst) => {
                             this.isLoading = false;
                             if (rst) {
-                                const log = {all: '', error: '', warning: '', info: ''};
+                                const log = { all: '', error: '', warning: '', info: '' };
                                 const convertLogs = util.convertLog(rst.log);
                                 Object.keys(convertLogs).forEach((key) => {
                                     if (convertLogs[key]) {
@@ -199,5 +199,5 @@ export default {
     },
 };
 </script>
-<style lang="sass" src="./index.scss">
+<style lang="scss" src="./index.scss">
 </style>
