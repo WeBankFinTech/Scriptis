@@ -28,9 +28,49 @@ const router = new VueRouter({
                     meta: {
                         title: '管理台',
                         publicPage: true,
-                        keepAlive: true,
                     },
                     component: () => import('../view/console/index.vue'),
+                    children: [{
+                        name: 'globalHistory',
+                        path: 'globalHistory',
+                        component: () => import('../module/globalHistory/index.vue'),
+                        meta: {
+                            title: '全局历史',
+                            publicPage: true,
+                        },
+                    }, {
+                        name: 'resource',
+                        path: 'resource',
+                        component: () => import('../module/resource/resource.vue'),
+                        meta: {
+                            title: '资源管理器',
+                            publicPage: true,
+                        },
+                    }, {
+                        name: 'setting',
+                        path: 'setting',
+                        component: () => import('../module/setting/setting.vue'),
+                        meta: {
+                            title: '设置',
+                            publicPage: true,
+                        },
+                    }, {
+                        name: 'globalValiable',
+                        path: 'globalValiable',
+                        component: () => import('../module/globalValiable/index.vue'),
+                        meta: {
+                            title: '全局变量',
+                            publicPage: true,
+                        },
+                    }, {
+                        name: 'FAQ',
+                        path: 'FAQ',
+                        component: () => import('../module/FAQ/index.vue'),
+                        meta: {
+                            title: '常见问题',
+                            publicPage: true,
+                        },
+                    }],
                 },
             ],
         },

@@ -16,7 +16,7 @@
             :key="th.key"
             :style="{'min-width': th.width + 'px', 'text-align': th.align}"
             class="we-table-thead-cell">
-            {{ th.title }}
+            {{ th.title || '#' }}
           </th>
         </tr>
       </thead>
@@ -26,21 +26,24 @@
           :key="index"
           class="we-table-row">
           <td
-            v-for="(th) in columns"
+            v-for="(th, index) in columns"
             :key="th.key"
             :style="{'text-align': th.align}"
             class="we-table-row-cell">
             <div
               class="we-table-row-label"
-              :style="{'width': th.width + 'px'}"
-              :class="{'ellipsis': th.ellipsis}">
+              :style="{'width': th.width ? th.width + 'px' : getComputedWidth(th)}"
+              :class="{'ellipsis': th.ellipsis}"
+              :title="th.ellipsis ? td[th.key] : ''">
               <table-expand
                 v-if="th.renderType"
                 :row="td"
                 :column="th"
                 :index="index"
                 :render="renderComponent({type: th.renderType, cell: td, key: th.key, params: th.renderParams})"></table-expand>
-              <span v-else>{{ td[th.key] }}</span>
+              <span
+                v-else
+                :class="th.className">{{ td[th.key] }}</span>
             </div>
           </td>
         </tr>
@@ -52,6 +55,7 @@
 import moment from 'moment';
 import util from '@/js/util';
 import TableExpand from './expand';
+import elementResizeEvent from '@js/helper/elementResizeEvent';
 export default {
     components: {
         TableExpand,
@@ -69,8 +73,14 @@ export default {
     },
     data() {
         return {
-
+            offsetWidth: 0,
         };
+    },
+    mounted() {
+        elementResizeEvent.bind(this.$el, this.resize);
+    },
+    beforeDestroy: function() {
+        elementResizeEvent.unbind(this.$el);
     },
     methods: {
         renderComponent({ type, cell, key, params }) {
@@ -88,6 +98,10 @@ export default {
                     return this.renderFormatTime(value);
                 case 'convertTime':
                     return this.renderConvertTime(value);
+                case 'index':
+                    return this.renderIndex(cell);
+                case 'a':
+                    return this.renderA(value, cell, params);
                 default:
                     return null;
             }
@@ -243,6 +257,43 @@ export default {
             return (h) => {
                 return h('span', {}, util.convertTimestamp(value));
             };
+        },
+        renderIndex(cell) {
+            const index = this.data.findIndex((item) => item.taskID === cell.taskID);
+            return (h) => {
+                return h('span', {}, index + 1);
+            };
+        },
+        renderA(value, cell, params) {
+            return (h) => {
+                return h('div', {
+                    style: {
+                        cursor: 'pointer',
+                        color: '#ed4014',
+                    },
+                    on: {
+                        click: (ev) => {
+                            params.action({ row: cell });
+                        },
+                    },
+                }, value);
+            };
+        },
+        getComputedWidth(current) {
+            this.offsetWidth = this.$el && this.$el.offsetWidth;
+            let usedWidth = 0;
+            const unHasWidthList = [];
+            this.columns.forEach((item) => {
+                const width = item.width || 0;
+                usedWidth += width;
+                if (!item.width) {
+                    unHasWidthList.push(item);
+                }
+            });
+            return (this.offsetWidth - 30 - usedWidth) / unHasWidthList.length + 'px';
+        },
+        resize() {
+            this.offsetWidth = this.$el && this.$el.offsetWidth;
         },
     },
 };

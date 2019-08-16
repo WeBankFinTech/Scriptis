@@ -1,4 +1,4 @@
-const cache = {};
+let cache = {};
 let key = 1;
 export default {
     inserted(el, binding) {
@@ -19,5 +19,6 @@ export default {
     unbind(el) {
         const self = cache[el.outsideKey];
         document.removeEventListener('click', self.documentHandler);
+        delete cache[el.outsideKey];
     },
 };
