@@ -3,7 +3,7 @@ Scriptis
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-[English](docs/en_US/README.md) | [Chinese](docs/zh_CN/README.md)
+English | [Chinese](docs/zh_CN/README.md)
 
 ## Introduction
 
@@ -42,4 +42,4 @@ If you desire immediate response, please kindly raise issues to us or scan the b
 
 ## License
 
-[Scriptis is under the Apache 2.0 license. See the LICENCSEN file for details]((http://www.apache.org/licenses/LICENSE-2.0))
+Scriptis is under the Apache 2.0 license. See the [LICENSE]((http://www.apache.org/licenses/LICENSE-2.0)) file for details
