@@ -153,5 +153,5 @@ export default {
     },
 };
 </script>
-<style lang="sass" src="./index.scss">
+<style lang="scss" src="./index.scss">
 </style>

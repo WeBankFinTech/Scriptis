@@ -298,4 +298,4 @@ export default {
     },
 };
 </script>
-<style src="./index.scss" lang="sass"></style>
+<style src="./index.scss" lang="scss"></style>
