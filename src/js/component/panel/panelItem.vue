@@ -103,7 +103,7 @@ export default {
             } else if (this.isDiy) {
                 styleAttr = Object.assign({
                     'position': 'fixed',
-                    'z-index': 1100,
+                    'z-index': 100,
                 }, this.diyStyle);
             } else {
                 styleAttr = {
@@ -112,7 +112,7 @@ export default {
                     'right': 0,
                     'top': 0,
                     'bottom': 0,
-                    'z-index': 1100,
+                    'z-index': 100,
                 };
             }
             return styleAttr;
