@@ -4,7 +4,7 @@ import storage from '@/js/helper/storage';
 Vue.mixin({
     data: function() {
         return {
-            SUPPORTED_LANG_MODES: [
+            SUPPORTED_LANG_MODES: Object.freeze([
                 { rule: /\.(bi)$/i, executable: false, logo: 'fi-bi', isCanBeNew: false, isCanBeOpen: true },
                 { rule: /\.(sql)$/i, lang: 'hql', executable: true, application: 'spark', runType: 'sql', ext: '.sql', scriptType: 'hive', abbr: 'sql', logo: 'fi-spark', isCanBeNew: true, label: 'Sql', isCanBeOpen: true },
                 { rule: /\.(hql)$/i, lang: 'hql', executable: true, application: 'hive', runType: 'hql', ext: '.hql', scriptType: 'hql', abbr: 'hql', logo: 'fi-hive', isCanBeNew: true, label: 'Hive', isCanBeOpen: true },
@@ -20,7 +20,7 @@ Vue.mixin({
                 { rule: /\.xlsx$/i, logo: 'fi-xlsx', isCanBeNew: false, isCanBeOpen: false },
                 { rule: /\.csv$/i, logo: 'fi-csv', isCanBeNew: false, isCanBeOpen: false },
                 { rule: /\.jar$/i, logo: 'fi-jar', isCanBeNew: false, isCanBeOpen: false },
-            ],
+            ]),
         };
     },
     created: function() {},
@@ -39,6 +39,14 @@ Vue.mixin({
         },
         getSupportModes() {
             return this.SUPPORTED_LANG_MODES;
+        },
+        getLogManager() {
+            const baseInfo = storage.get('baseInfo');
+            if (!baseInfo.userInfo.role || !baseInfo.userInfo.role[0]) {
+                return false;
+            }
+            const findRole = baseInfo.userInfo.role.find((role) => role.name === 'logAdmin');
+            return !!findRole;
         },
     },
 });

@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import globalcache from '@js/service/db/globalcache.js';
+import { map, isEmpty } from 'lodash';
+import util from '../util';
 import storage from '@/js/helper/storage';
 
 const pyKeywordInfoProposals = [
@@ -215,35 +215,13 @@ const pyKeywordInfoProposals = [
     },
 ];
 
-/**
- * 对拿到的数据格式化成completionList格式
- * @param {*} monaco 编辑器
- * @param {*} list 格式化列表
- * @return {*} 格式化后的列表
- */
-function completionListFormatter(monaco, list) {
-    const formatList = [];
-    list.forEach((item) => {
-        if (item.udfType === 1 || item.udfType === 3) {
-            formatList.push({
-                label: item.udfName,
-                kind: monaco.languages.CompletionItemKind.Function,
-                insertText: item.udfName,
-                detail: item.udfType > 2 ? '方法函数' : 'UDF函数',
-                documentation: item.description,
-            });
-        }
-    });
-    return formatList;
-}
+let functionProposals = [];
 
 export default {
     async register(monaco) {
-        const userInfo = storage.get('userInfo');
-        const userName = userInfo.basic.userName;
-        const globalCache = await globalcache.getCache(userName);
+        const lang = 'python';
 
-        const pyProposals = _.map(pyKeywordInfoProposals, (item) => ({
+        const pyProposals = map(pyKeywordInfoProposals, (item) => ({
             label: item.label.toLowerCase(),
             kind: monaco.languages.CompletionItemKind.Keyword,
             insertText: item.insertText.toLowerCase(),
@@ -251,18 +229,25 @@ export default {
             documentation: item.documentation,
         }));
 
-        let functionProposals = completionListFormatter(monaco, globalCache.fnList);
+        util.getHiveList(monaco, lang).then((list) => {
+            functionProposals = list.udfProposals;
+        });
 
         monaco.languages.registerCompletionItemProvider('python', {
             triggerCharacters: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._'.split(''),
             async provideCompletionItems(model, position) {
+                if (isEmpty(functionProposals)) {
+                    util.getHiveList(monaco, lang).then((list) => {
+                        functionProposals = list.udfProposals;
+                    });
+                }
+
                 const textUntilPosition = model.getValueInRange({
                     startLineNumber: position.lineNumber,
                     startColumn: 1,
                     endLineNumber: position.lineNumber,
                     endColumn: position.column,
                 });
-                let completionList = null;
                 const keywordMatch = textUntilPosition.match(/([^"]*)?$/i);
                 const functionMatch = textUntilPosition.match(/\s+/i);
                 if (functionMatch) {
@@ -270,14 +255,15 @@ export default {
                     // 如果函数发生load状态变化，则重新从indexdb中获取fnlist
                     if (isFunctionChange) {
                         storage.set('isFunctionChange_python', false);
-                        const globalCache = await globalcache.getCache(userName);
-                        functionProposals = completionListFormatter(monaco, globalCache.fnList);
+                        await util.getHiveList(monaco, lang).then((list) => {
+                            return list.udfProposals;
+                        });
                     }
-                    completionList = functionProposals;
+                    return functionProposals;
                 } else if (keywordMatch) {
-                    completionList = pyProposals;
+                    return pyProposals;
                 }
-                return completionList;
+                return [];
             },
         });
     },

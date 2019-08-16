@@ -1,0 +1,57 @@
+@import '../../../assets/styles/variables.scss';
+.log-view {
+    position: $absolute;
+    left: 0;
+    right: 0;
+    top: 40px;
+    bottom: 0;
+    padding: 20px;
+
+    .log-editor-wrap {
+        border: $border-width-base $border-style-base $border-color-base;
+        box-shadow: $shadow-card;
+        position: $absolute;
+        left: 10px;
+        right: 20px;
+        top: 62px;
+        bottom: 20px;
+
+        .log-tools {
+            height: 36px;
+            line-height: 36px;
+            padding-left: 10px;
+            background: $background-color-base;
+            position: $relative;
+            border-bottom: 2px solid $border-color-base;
+            overflow: hidden;
+            margin-bottom: -2px;
+            .log-tools-control {
+                display: inline-block;
+                position: $absolute;
+                top: 2px;
+                .log-tabs {
+                    display: inline-block;
+                    position: $absolute;
+                }
+                .log-search {
+                    width: 100px;
+                    position: $absolute;
+                    left: 350px;
+                    top: 5px;
+                    font-size: $font-size-small;
+                }
+                .err-badge {
+                    background: $error-color !important;
+                }
+                .warn-badge {
+                    background: $yellow-color !important;
+                }
+            }
+        }
+    }
+
+
+    .log-search {
+        margin: 0 0 0 20px;
+    }
+}
