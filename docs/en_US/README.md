@@ -31,4 +31,4 @@ Scriptis is for interactive data analysis with script development(SQL, Pyspark, 
 
 ## License
 
-[Scriptis is under the Apache 2.0 license. See the LICENCSEN file for details]((http://www.apache.org/licenses/LICENSE-2.0))
+Scriptis is under the Apache 2.0 license. See the [LICENSE]((http://www.apache.org/licenses/LICENSE-2.0)) file for details
