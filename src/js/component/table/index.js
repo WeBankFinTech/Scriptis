@@ -1,3 +1,7 @@
-import WeTable from './table.vue'
+import WeTable from './table.vue';
+import historyTable from './historyTable.vue';
 
-export default WeTable
+export default {
+    WeTable,
+    historyTable,
+};
