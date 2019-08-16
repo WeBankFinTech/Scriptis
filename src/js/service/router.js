@@ -31,14 +31,6 @@ const router = new VueRouter({
                     },
                     component: () => import('../view/console/index.vue'),
                     children: [{
-                        name: 'dateReport',
-                        path: 'dateReport',
-                        component: () => import('../module/dateReport/index.vue'),
-                        meta: {
-                            title: '运营日报',
-                            publicPage: true,
-                        },
-                    }, {
                         name: 'globalHistory',
                         path: 'globalHistory',
                         component: () => import('../module/globalHistory/index.vue'),
