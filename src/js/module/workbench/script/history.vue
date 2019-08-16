@@ -1,13 +1,14 @@
 <template>
   <div
     class="workbench-history">
-    <Table
-      ref="historyData"
+    <history-table
+      ref="globalHistory"
       :columns="column"
-      :data="history.slice(page.start, page.end)"
+      :data="list"
       :height="tableHeight"
-      class="workbench-history-table"
+      no-data-text="暂无数据"
       size="small"
+      border
       stripe/>
     <div class="workbench-history-page">
       <Page
@@ -25,14 +26,16 @@
 </template>
 <script>
 import axios from 'axios';
-import moment from 'moment';
-import hljs from 'highlight.js';
 import module from '../index';
 import api from '@/js/service/api';
 import util from '@/js/util';
 import resizeMixin from './mixin.js';
+import table from '@js/component/table';
 const EXECUTE_COMPLETE_TYPE = ['Succeed', 'Failed', 'Cancelled', 'Timeout'];
 export default {
+    components: {
+        historyTable: table.historyTable,
+    },
     mixins: [module.mixin, resizeMixin],
     props: {
         history: {
@@ -61,6 +64,9 @@ export default {
         firstRecord() {
             return this.history && this.history[0];
         },
+        list() {
+            return this.history.slice(this.page.start, this.page.end);
+        },
     },
     watch: {
         // 时间发生改变的时候去使用超时器，每隔5秒更新历史的时间
@@ -70,12 +76,16 @@ export default {
         // 完成状态时清除定时器，防止最终数据被修改
         'firstRecord.status'(val) {
             if (EXECUTE_COMPLETE_TYPE.indexOf(val) !== -1) {
-                clearInterval(this.costTimeout);
+                clearTimeout(this.costTimeout);
             }
         },
     },
     mounted() {
         this.initData();
+    },
+    beforeDestroy() {
+        clearTimeout(this.costTimeout);
+        this.costTimeout = null;
     },
     methods: {
         initData() {
@@ -83,10 +93,9 @@ export default {
             this.setInitCostTime();
             this.column = [
                 {
-                    type: 'index',
                     width: 50,
                     align: 'center',
-                    fixed: 'left',
+                    renderType: 'index',
                 }, {
                     title: '任务ID',
                     key: 'taskID',
@@ -96,137 +105,52 @@ export default {
                     title: '执行时间',
                     key: 'runningTime',
                     align: 'center',
-                    width: 100,
-                    render: (h, scope) => {
-                        return h('span', {}, util.convertTimestamp(scope.row.runningTime));
-                    },
+                    width: 80,
+                    renderType: 'convertTime',
                 }, {
                     title: '启动时间',
                     key: 'createDate',
                     align: 'center',
                     width: 100,
-                    render: (h, scope) => {
-                        return h('span', {}, moment.unix(scope.row.createDate / 1000).format('YYYY-MM-DD HH:mm:ss'));
-                    },
+                    renderType: 'formatTime',
                 }, {
                     title: '状态',
                     key: 'status',
                     align: 'center',
                     width: 120,
-                    render: (h, scope) => {
-                        let type = '';
-                        let label = '';
-                        switch (scope.row.status) {
-                            case 'Succeed':
-                                type = 'green';
-                                label = '成功';
-                                break;
-                            case 'Running':
-                                type = 'cyan';
-                                label = '运行';
-                                break;
-                            case 'Timeout':
-                                type = 'gray';
-                                label = '超时';
-                                break;
-                            case 'Inited':
-                                type = 'default';
-                                label = '排队中';
-                                break;
-                            case 'Scheduled':
-                                type = 'purple';
-                                label = '资源申请中';
-                                break;
-                            case 'Failed':
-                                type = 'red';
-                                label = '失败';
-                                break;
-                            default:
-                                type = 'orange';
-                                label = '取消';
-                                break;
-                        }
-                        return h('Tag', {
-                            props: {
-                                color: type,
-                            },
-                        }, label);
-                    },
+                    renderType: 'tag',
                 }, {
                     title: '代码',
                     key: 'data',
-                    width: 260,
+                    align: 'center',
                     // 溢出以...显示
                     ellipsis: true,
-                    render: (h, scope) => {
-                        return h('Tooltip', {
-                            props: {
-                                placement: 'bottom-start',
-                                maxWidth: '600',
-                                transfer: true,
-                                theme: 'light',
-                            },
-                        }, [
-                            // 这个是表格上面的span
-                            h('span', {
-                                domProps: {
-                                    innerHTML: this.parsingLanguaue() ? hljs.highlight(this.parsingLanguaue(), scope.row.data).value : scope.row.data,
-                                },
-                            }),
-                            // 这个是tooltip上面的span
-                            h('div', {
-                                slot: 'content',
-                                style: {
-                                    whiteSpace: 'normal',
-                                    wordBreak: 'break-all',
-                                    maxHeight: '500px',
-                                    overflowY: 'auto',
-                                },
-                                // 代替v-html
-                                domProps: {
-                                    innerHTML: this.parsingLanguaue() ? hljs.highlight(this.parsingLanguaue(), scope.row.data).value : scope.row.data,
-                                },
-                            }),
-                        ]);
-                    },
+                    // renderType: 'tooltip',
                 }, {
                     title: '关键信息',
                     key: 'failedReason',
+                    align: 'center',
                     className: 'history-failed',
-                    minWidth: 200,
+                    width: 220,
+                    renderType: 'a',
+                    renderParams: {
+                        action: this.linkTo,
+                    },
                 }, {
                     title: '操作',
                     key: 'control',
                     fixed: 'right',
                     align: 'center',
-                    width: 120,
+                    width: 140,
                     className: 'history-control',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'text',
-                                    size: 'small',
-                                },
-                                on: {
-                                    click: (ev) => {
-                                        this.viewHistory(params);
-                                    },
-                                },
-                            }, '查看'),
-                            h('Button', {
-                                props: {
-                                    type: 'text',
-                                    size: 'small',
-                                },
-                                on: {
-                                    click: (ev) => {
-                                        this.downloadLog(params);
-                                    },
-                                },
-                            }, '日志下载'),
-                        ]);
-                    },
+                    renderType: 'button',
+                    renderParams: [{
+                        label: '查看',
+                        action: this.viewHistory,
+                    }, {
+                        label: '日志下载',
+                        action: this.downloadLog,
+                    }],
                 },
             ];
         },
@@ -234,7 +158,7 @@ export default {
         setInitCostTime() {
             if (this.history.length) {
                 if (this.history && EXECUTE_COMPLETE_TYPE.indexOf(this.history[0].status) === -1) {
-                    clearInterval(this.costTimeout);
+                    clearTimeout(this.costTimeout);
                     this.costTimeout = setTimeout(() => {
                         this.$set(this.history[0], 'runningTime', new Date().getTime() - this.history[0].createDate);
                     }, 5000);
@@ -322,6 +246,19 @@ export default {
                 return 'sql';
             }
             return match.lang;
+        },
+        linkTo(params) {
+            const errCodeList = [11011, 11012, 11013, 11014, 11015, 11016, 11017];
+            const errCode = parseInt(params.row.failedReason);
+            if (errCodeList.indexOf(errCode) !== -1) {
+                this.$router.push({
+                    path: '/console/FAQ',
+                    query: {
+                        errCode,
+                        isSkip: true,
+                    },
+                });
+            }
         },
     },
 };

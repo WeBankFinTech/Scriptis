@@ -29,35 +29,17 @@
           </Card>
         </div>
         <div
-          v-if="activedCell"
           class="content-body-side-right">
           <div class="content-body-side-right-title">
             <Breadcrumb>
-              <BreadcrumbItem to="/console">{{ activedCellParent.name }}</BreadcrumbItem>
-              <BreadcrumbItem>{{ activedCell.name }}</BreadcrumbItem>
+              <BreadcrumbItem to="/console">{{ breadcrumbFirstName }}</BreadcrumbItem>
+              <BreadcrumbItem>{{ breadcrumbSecondName }}</BreadcrumbItem>
             </Breadcrumb>
           </div>
           <div
             class="content-body-side-right-content"
             :style="{'height': contentHeight + 'px'}">
-            <global-history
-              v-if="activedCell.key==='1-1'"
-              :height="contentHeight"/>
-            <resource
-              v-if="activedCell.key==='1-2'"
-              :height="contentHeight"/>
-            <setting
-              v-if="activedCell.key==='1-3'"
-              :height="contentHeight"/>
-            <global-valiable
-              v-if="activedCell.key==='1-4'"
-              :height="contentHeight"/>
-            <div
-              v-if="activedCell.key==='1-5'"
-              style="display: flex; justify-content: center; align-items: center;"
-              :style="{'height': contentHeight + 'px'}">
-              请在跳转页面查看……
-            </div>
+            <router-view></router-view>
           </div>
         </div>
       </div>
@@ -69,17 +51,8 @@
   </div>
 </template>
 <script>
-import globalHistoryModule from '@js/module/globalHistory';
-import resourceModule from '@js/module/resource';
-import settingModule from '@js/module/setting';
-import globalValiableModule from '@js/module/globalValiable';
+import storage from '@/js/helper/storage';
 export default {
-    components: {
-        globalHistory: globalHistoryModule.component,
-        resource: resourceModule.component.resource,
-        setting: settingModule.component,
-        globalValiable: globalValiableModule.component,
-    },
     data() {
         return {
             sideNavList: [{
@@ -88,43 +61,65 @@ export default {
                 padding: 0,
                 icon: 'ios-options',
                 children: [
-                    { key: '1-1', name: '全局历史' },
-                    { key: '1-2', name: '资源管理器' },
-                    { key: '1-3', name: '设置' },
-                    { key: '1-4', name: '全局变量' },
-                    { key: '1-5', name: '常见问题' },
+                    {key: '1-1', name: '全局历史', path: '/console/globalHistory'},
+                    {key: '1-2', name: '资源管理器', path: '/console/resource'},
+                    {key: '1-3', name: '设置', path: '/console/setting'},
+                    {key: '1-4', name: '全局变量', path: '/console/globalValiable'},
+                    {key: '1-5', name: '常见问题', path: '/console/FAQ'},
                 ],
             }],
-            activedCellParent: null,
-            activedCell: null,
-            contentHeight: 0,
+            breadcrumbFirstName: '常用功能',
+            breadcrumbSecondName: '常见问题',
+	    contentHeight: 0,
         };
     },
     created() {
     },
     mounted() {
-        this.handleCellClick('1-1');
         this.resize(window.innerHeight);
         // 监听窗口变化，获取浏览器宽高
         window.addEventListener('resize', () => {
             this.resize(window.innerHeight);
         });
     },
+    beforeDestroy() {
+        // 监听窗口变化，获取浏览器宽高
+        window.removeEventListener('resize', () => {
+            this.resize(window.innerHeight);
+        });
+    },
     methods: {
         handleCellClick(index) {
-            this.activedCellParent = this.sideNavList[index.slice(0, 1) - 1];
-            this.activedCell = this.activedCellParent.children.find((item) => item.key === index);
-            if (index == '1-5') {
-                const newTab = window.open('about:blank');
-                setTimeout(() => {
-                    newTab.location.href = this.getFAQUrl();
-                }, 500);
-            }
+            const activedCellParent = this.sideNavList[index.slice(0, 1) - 1];
+            const activedCell = activedCellParent.children.find((item) => item.key === index);
+            this.breadcrumbFirstName = activedCellParent.name;
+            this.breadcrumbSecondName = activedCell.name;
+            storage.set('lastActiveConsole', activedCell);
+            this.$router.push({
+                path: activedCell.path,
+                query: {
+                    height: this.contentHeight,
+                },
+            });
         },
         // 设置宽高
         resize(h) {
             this.contentHeight = h - 230;
         },
+    },
+    beforeRouteEnter(to, from, next) {
+        if (to.name === 'FAQ' && from.name === 'Home') {
+            next((vm) => {
+                vm.breadcrumbFirstName = '常用功能';
+                vm.breadcrumbSecondName = '常见问题';
+            });
+        } else if (to.name === 'Console' && from.name === 'Home') {
+            const lastActiveConsole = storage.get('lastActiveConsole');
+            next((vm) => {
+                vm.handleCellClick(lastActiveConsole ? lastActiveConsole.key : '1-1');
+            });
+        }
+        next();
     },
 };
 </script>
