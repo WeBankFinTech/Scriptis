@@ -41,8 +41,11 @@
               <DropdownItem name="right">关闭右边</DropdownItem>
               <DropdownItem
                 name="fullScreen"
-                divided>全屏</DropdownItem>
-              <DropdownItem name="releaseFullScreen">取消全屏</DropdownItem>
+                divided
+                v-if="!isTopPanelFull">全屏</DropdownItem>
+              <DropdownItem
+                name="releaseFullScreen"
+                v-else>取消全屏</DropdownItem>
             </DropdownMenu>
           </Dropdown>
         </div>
@@ -84,7 +87,7 @@
         <span>关闭提示</span>
       </p>
       <div class="modal-content">
-        <p>{{ closeModal.text }}</p>
+        <p style="word-break: break-all;">{{ closeModal.text }}</p>
       </div>
       <div slot="footer">
         <Button
@@ -334,6 +337,7 @@ export default {
             if (!repeatWork) {
                 if (this.worklist.length >= 10) {
                     this.$Notice.close('boyondQuota');
+                    cb && cb(false);
                     return this.$Notice.warning({
                         title: '警告',
                         desc: '您打开的脚本已超出10个，请关闭其他脚本再打开！',
@@ -468,6 +472,9 @@ export default {
                             if (cb) {
                                 cb();
                             }
+                            setTimeout(() => {
+                                this.dispatch('Workbench:save', this.worklist[this.worklist.length - 1]);
+                            }, 500);
                         });
                     }, 300);
                 });
@@ -508,6 +515,7 @@ export default {
                 }), '');
                 this.current = work.id;
                 this.dispatch('IndexedDB:toggleTab', work.id);
+                this.dispatch('Workbench:setParseAction', work.id);
                 this.panelControl(this.isTopPanelFull ? 'fullScreen' : 'releaseFullScreen');
             }
         },

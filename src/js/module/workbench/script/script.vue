@@ -65,10 +65,18 @@
               @on-click="configLogPanel">
               <Icon type="md-list" />
               <DropdownMenu slot="list">
-                <DropdownItem name="fullScreen">全屏</DropdownItem>
-                <DropdownItem name="releaseFullScreen">取消全屏</DropdownItem>
-                <DropdownItem name="min">最小化</DropdownItem>
-                <DropdownItem name="releaseMin">取消最小化</DropdownItem>
+                <DropdownItem
+                  name="fullScreen"
+                  v-if="!isBottomPanelFull">全屏</DropdownItem>
+                <DropdownItem
+                  name="releaseFullScreen"
+                  v-else>取消全屏</DropdownItem>
+                <DropdownItem
+                  name="min"
+                  v-if="!scriptViewState.bottomPanelMin">最小化</DropdownItem>
+                <DropdownItem
+                  name="releaseMin"
+                  v-else>取消最小化</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -153,6 +161,7 @@ export default {
             saveLoading: false,
             isLogShow: false,
             autoSaveTimer: null,
+            isBottomPanelFull: false,
         };
     },
     computed: {
@@ -235,11 +244,13 @@ export default {
                 if (resultList) {
                     this.script.result = resultList[resultList.resultSet].result;
                     this.script.resultList = _.dropRight(_.toArray(resultList), 3);
-                    this.$nextTick(() => {
-                        this.$refs.result.resultSet = resultList.resultSet;
-                        this.$refs.result.initPage();
-                    });
                     this.showPanelTab(resultList.showPanel);
+                    if (this.$refs.result) {
+                        this.$nextTick(() => {
+                            this.$refs.result.resultSet = resultList.resultSet;
+                            this.$refs.result.initPage();
+                        });
+                    }
                 }
             } });
         this.dispatch('IndexedDB:getLog', { tabId: this.script.id,
@@ -403,6 +414,10 @@ export default {
             // 执行
             this.execute = new Execute(data);
             this.isLogShow = false;
+            this.localLog = {
+                log: { all: '', error: '', warning: '', info: '' },
+                logLine: 1,
+            };
             if (option && option.isRestore) {
                 this.execute.restore(option);
             } else {
@@ -456,16 +471,16 @@ export default {
                 Object.keys(convertLogs).forEach((key) => {
                     const convertLog = convertLogs[key];
                     if (convertLog) {
-                        this.script.log[key] += convertLog + '\n';
+                        this.localLog.log[key] += convertLog + '\n';
                     }
                     if (key === 'all') {
-                        this.script.logLine += convertLog.split('\n').length;
+                        this.localLog.logLine += convertLog.split('\n').length;
                     }
                 });
-                this.dispatch('IndexedDB:appendLog', {
-                    tabId: this.script.id,
-                    rst: this.script.log,
-                });
+
+                if (this.scriptViewState.showPanel === 'log') {
+                    this.localLogShow();
+                }
             });
 
             this.execute.on('history', (ret) => {
@@ -526,7 +541,6 @@ export default {
                 }
             });
             this.execute.on('result', (ret) => {
-                this.script.running = false;
                 this.showPanelTab('result');
                 const storeResult = {
                     'headRows': ret.metadata,
@@ -650,10 +664,18 @@ export default {
                     this.showPanelTab('history');
                     this.isLogShow = true;
                 }
+                this.dispatch('IndexedDB:appendLog', {
+                    tabId: this.script.id,
+                    rst: this.script.log,
+                });
             });
             this.execute.on('stateEnd', () => {
                 // 执行成功的时候resolve，用于改变modal框中的loading状态
                 cb && cb('end');
+                this.dispatch('IndexedDB:appendLog', {
+                    tabId: this.script.id,
+                    rst: this.localLog.log,
+                });
             });
             this.execute.on('querySuccess', ({ type, task }) => {
                 const costTime = util.convertTimestamp(task.costTime);
@@ -747,9 +769,11 @@ export default {
         },
         autoSave() {
             clearTimeout(this.autoSaveTimer);
-            this.autoSaveTimer = setTimeout(() => {
-                this.save();
-            }, 1000 * 60 * 3);
+            if (!this.work.saveAs) {
+                this.autoSaveTimer = setTimeout(() => {
+                    this.save();
+                }, 1000 * 60 * 5);
+            }
         },
         save() {
             const params = {
@@ -804,10 +828,28 @@ export default {
         },
         showPanelTab(type) {
             this.scriptViewState.showPanel = type;
+            if (type === 'log') {
+                this.localLogShow();
+            }
+        },
+        localLogShow() {
+            if (this.localLog) {
+                this.script.log = this.localLog.log;
+                this.script.logLine = this.localLog.logLine;
+            }
         },
         configLogPanel(name) {
-            if (name == 'fullScreen' || name == 'releaseFullScreen') {
-                this.$refs.bottomPanel[name]();
+            if (name == 'fullScreen') {
+                this.isBottomPanelFull = true;
+                this.$refs.bottomPanel[name]({
+                    isDiy: false,
+                });
+            }
+            if (name == 'releaseFullScreen') {
+                this.isBottomPanelFull = false;
+                this.$refs.bottomPanel[name]({
+                    isDiy: false,
+                });
             }
             if (name == 'min') {
                 this.scriptViewState.bottomPanelHeight = 32;
@@ -823,9 +865,8 @@ export default {
         },
         changeResultSet(data, cb) {
             const resultSet = _.isUndefined(data.currentSet) ? this.script.resultSet : data.currentSet;
-            // this.$set(this.script.resultList[resultSet], 'result', data.lastResult);
-            // 拿到index对应的result
-            const resultPath = this.script.resultList[resultSet].path;
+            const findResult = this.script.resultList.find((item) => item.name === `_${resultSet}.dolphin`);
+            const resultPath = findResult && findResult.path;
             const hasResult = this.script.resultList[resultSet].hasOwnProperty('result');
             if (!hasResult) {
                 const pageSize = 5000;
@@ -861,7 +902,6 @@ export default {
                         });
                         cb();
                     }).catch((err) => {
-                        this.$refs.result.resultSet = data.lastSet;
                         cb();
                     });
             } else {
