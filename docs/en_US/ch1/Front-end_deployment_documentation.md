@@ -4,15 +4,15 @@ Scriptis is a data analysis tool based on Linkis. Before deploying Scriptis, you
 
 1. Select the corresponding installation package to download.
 
-2. Unzip the downloaded installation package in the installation directory: unzip wedatasphere-scriptis-0.5.0-dist.zip.
+2. Unzip the downloaded installation package in the installation directory: unzip wedatasphere-scriptis-0.6.0-dist.zip.
 
 ## 2 Deploy
 
-​	There are two deployment methods, automated and manual deployment.  
+​	There are two deployment methods, automated and manual deployment.
 
 ### 2.1 Automated deployment
 
-Go to the frontend directory ```wedatasphere-scriptis``` and edit ```vi config.sh ``` to change the interface address of the frontend and backend port. backend port interface address is the gateway address of linkis. 
+Go to the frontend directory ```wedatasphere-scriptis``` and edit ```vi config.sh ``` to change the interface address of the frontend and backend port. backend port interface address is the gateway address of linkis.
 
 ### (3) Modify and save the configuration file created above
 
@@ -29,7 +29,7 @@ scriptis_ipaddr=$(ip addr | awk '/^[0-9]+: / {}; /inet.*global/ {print gensub(/(
 
 After the modification, run the following command in the directory: ```sudo sh install.sh > install.log 2>&1```
 
-Next, you can access ```http://scriptis_ipaddr:scriptis_port``` directly via Chrome, scriptis_port is the port configured in config.sh and scriptis_ipaddr is the IP of the machine that used for installation. 
+Next, you can access ```http://scriptis_ipaddr:scriptis_port``` directly via Chrome, scriptis_port is the port configured in config.sh and scriptis_ipaddr is the IP of the machine that used for installation.
 
 If encounter access failure,  please check install.log and find out the errors.
 
@@ -48,11 +48,11 @@ server {
             #charset koi8-r;
             #access_log  /var/log/nginx/host.access.log  main;
             location / {
-            root   /appcom/Install/scriptis/ROOT; # directory where package decompressed 
+            root   /appcom/Install/scriptis/ROOT; # directory where package decompressed
             #in the fronted
             index  index.html index.html;
             }
-            location /ws {#webSocket configure spport 
+            location /ws {#webSocket configure spport
             proxy_pass http://192.168.xxx.xxx:9001;#IP port of the linkis gateway service
             proxy_http_version 1.1;
             proxy_set_header Upgrade $http_upgrade;
@@ -84,11 +84,11 @@ server {
 
 3. Copy the frontend package to the corresponding directory: ```/appcom/Install/scriptis/ROOT; # directory where package decompressed in the frontend```
 4. Start service: ```sudo systemctl restart nginx```
-5. You can directly access ```http://nginx_ip:nginx_port``` via Chrome after execution. 
+5. You can directly access ```http://nginx_ip:nginx_port``` via Chrome after execution.
 
 ## 3 FAQs
 
-(1) limitations on the size of files that being uploaded 
+(1) limitations on the size of files that being uploaded
 
 ```
 sudo vi /etc/nginx/nginx.conf
