@@ -87,6 +87,10 @@ const api = {
     instance: instance,
     error: {
         '-1': function(res) {
+            const data = res.data.data;
+            if (data.enableSSO && data.SSOURL) {
+                return window.location.replace(data.SSOURL);
+            }
             router.push('/login');
             throw new Error('您尚未登录，请先登录!');
         },
