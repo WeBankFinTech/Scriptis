@@ -2,7 +2,7 @@
   <div
     class="list-view"
     ref="list">
-    <vuescroll
+    <vue-scroll
       :ops="ops"
       @handle-scroll="handleScroll">
       <list-body
@@ -20,19 +20,19 @@
             class="we-column-item"
             :class="{'null-text': content === 'NULL', 'active': contentIndex === activeRowIndex}"
             @click.stop="columnItemClick(contentIndex)">
-            {{ content }}
+            <span class="we-column-item-content">{{ content }}</span>
           </div>
         </div>
       </list-body>
-    </vuescroll>
+    </vue-scroll>
   </div>
 </template>
 <script>
 import listBody from './body.vue';
-import vuescroll from 'vuescroll/dist/vuescroll-native';
+import vueScroll from './vuescroll/vuescroll-native.js';
 export default {
     components: {
-        vuescroll,
+        vueScroll,
         listBody,
     },
     props: {
@@ -79,7 +79,7 @@ export default {
     },
     methods: {
         handleScroll(v, h) {
-            this.$emit('on-scroll', { v, h });
+            this.$emit('on-scroll', {v, h});
             this.$refs.body.handleScroll(v, h);
         },
         columnItemClick(index) {
