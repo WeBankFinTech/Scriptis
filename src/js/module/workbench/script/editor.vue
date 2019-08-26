@@ -112,6 +112,7 @@ export default {
         listenResource() {
             return this.script.running;
         },
+
         isSupport() {
             return this.script.executable;
         }

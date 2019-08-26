@@ -90,7 +90,7 @@ export default {
                 if (!this.isParserClose) {
                     this.sqlParser(newValue);
                 }
-                if (newValue == this.getValue() ) {
+                if (newValue == this.getValue()) {
                     return;
                 }
                 let readOnly = this.editor.getConfiguration().readOnly;

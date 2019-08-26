@@ -79,7 +79,7 @@ export default {
     },
     methods: {
         handleScroll(v, h) {
-            this.$emit('on-scroll', { v, h });
+            this.$emit('on-scroll', {v, h});
             this.$refs.body.handleScroll(v, h);
         },
         columnItemClick(index) {
