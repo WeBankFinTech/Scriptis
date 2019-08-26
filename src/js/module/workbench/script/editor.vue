@@ -80,6 +80,7 @@
 import module from '../index';
 import setting from './setting.vue';
 import api from '@/js/service/api';
+import storage from '@/js/helper/storage';
 import _ from 'lodash';
 export default {
     components: {
@@ -139,6 +140,17 @@ export default {
                 this.$refs.editor.insertValueIntoEditor(args.value);
             }
         },
+        'Workbench:setParseAction'(id) {
+            if (id === this.script.id) {
+                const editor = this.$refs.editor;
+                if (editor) {
+                    const isParserClose = !!storage.get('isParserClose', 'local');
+                    editor.isParserClose = isParserClose;
+                    editor.closeParser && editor.closeParser.set(!isParserClose);
+                    editor.openParser && editor.openParser.set(isParserClose);
+                }
+            }
+        },
         undo() {
             this.$refs.editor.undo();
         },
@@ -165,7 +177,7 @@ export default {
                     if (status === 'start') {
                         this.loading = false;
                         // 执行开始时，脚本的按钮设置为running状态
-                        this.script.running = true;
+                        // this.script.running = true;
                     }
                     // 当抛出的为错误或者execute接口报错时，loading状态改为false，否则无法再次点击执行
                     if (status === 'execute' || status === 'error') {

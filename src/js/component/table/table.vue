@@ -34,9 +34,8 @@
   </div>
 </template>
 <script>
-import _ from 'lodash'
-import templateList from './list.vue'
-import templateHeader from './header.vue'
+import templateList from './list.vue';
+import templateHeader from './header.vue';
 
 const prefixCls = 'we-table';
 export default {
