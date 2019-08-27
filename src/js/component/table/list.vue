@@ -2,7 +2,7 @@
   <div
     class="list-view"
     ref="list">
-    <vue-scroll
+    <vuescroll
       :ops="ops"
       @handle-scroll="handleScroll">
       <list-body
@@ -24,15 +24,15 @@
           </div>
         </div>
       </list-body>
-    </vue-scroll>
+    </vuescroll>
   </div>
 </template>
 <script>
 import listBody from './body.vue';
-const vueScroll = require('./vuescroll/vuescroll-native.js');
+import vuescroll from 'vuescroll/dist/vuescroll-native';
 export default {
     components: {
-        vueScroll,
+        vuescroll,
         listBody,
     },
     props: {
