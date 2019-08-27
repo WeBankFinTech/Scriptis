@@ -106,7 +106,7 @@ export default {
     mounted() {
     },
     methods: {
-        changeScrollLeft({v, h}) {
+        changeScrollLeft({ v, h }) {
             this.$refs.headerCom.$refs.list.scrollLeft = h.scrollLeft;
             this.$refs.headerCom.handleScroll(v, h);
         },
@@ -145,7 +145,7 @@ export default {
             ];
         },
         handleSortClick(args) {
-            let {reverse, colIndex, cb} = args;
+            let { reverse, colIndex, cb } = args;
             if (reverse === 0) {
                 const rows = this.originRows.map((row) => {
                     return row.slice(0);
@@ -182,7 +182,7 @@ export default {
     },
 };
 </script>
-<style lang="sass" src="./index.scss"></style>
+<style lang="scss" src="./index.scss"></style>
 <style>
 .list-view {
 width: 100%;

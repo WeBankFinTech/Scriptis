@@ -29,7 +29,7 @@
 </template>
 <script>
 import listBody from './body.vue';
-import vueScroll from './vuescroll/vuescroll-native.js';
+const vueScroll = require('./vuescroll/vuescroll-native.js');
 export default {
     components: {
         vueScroll,
@@ -79,7 +79,7 @@ export default {
     },
     methods: {
         handleScroll(v, h) {
-            this.$emit('on-scroll', {v, h});
+            this.$emit('on-scroll', { v, h });
             this.$refs.body.handleScroll(v, h);
         },
         columnItemClick(index) {

@@ -1,7 +1,6 @@
-import Vue from 'vue';
 import storage from '@/js/helper/storage';
 
-Vue.mixin({
+export default{
     data: function() {
         return {
             SUPPORTED_LANG_MODES: Object.freeze([
@@ -49,6 +48,4 @@ Vue.mixin({
             return !!findRole;
         },
     },
-});
-
-// 注入自己的对象
+};

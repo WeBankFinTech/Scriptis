@@ -148,14 +148,13 @@ import log from './log.vue';
 import Module from './index';
 import api from '@/js/service/api';
 import util from '@/js/util';
-import envMixin from '@js/service/mixin';
 export default {
     name: 'GlobalHistory',
     components: {
         historyTable: table.historyTable,
         log,
     },
-    mixins: [Module.mixin, envMixin],
+    mixins: [Module.mixin],
     data() {
         return {
             list: [],
@@ -380,7 +379,8 @@ export default {
                 }
                 const name = `history_item_${params.row.taskID}${ext}`;
                 const md5Id = util.md5(name);
-                this.$router.push({path: '/', query: {
+                this.$router.push({ path: '/',
+query: {
                     id: md5Id,
                     taskID: params.row.taskID,
                     filename: name,
@@ -388,7 +388,7 @@ export default {
                     saveAs: true,
                     type: 'historyScript',
                     code: params.row.executionCode,
-                }});
+                } });
             }
         },
         getLogs(jobId) {
@@ -402,7 +402,7 @@ export default {
                     const errCode = res.task.errCode ? '\n错误码：' + res.task.errCode : '';
                     const errDesc = res.task.errDesc ? '\n错误描述：' + res.task.errDesc : '';
                     const info = '未获取到日志！' + errCode + errDesc;
-                    this.logs = {all: info, error: '', warning: '', info: ''};
+                    this.logs = { all: info, error: '', warning: '', info: '' };
                     this.fromLine = 1;
                     return;
                 }
@@ -412,7 +412,7 @@ export default {
                 }, 'get').then((rst) => {
                     this.isLoading = false;
                     if (rst) {
-                        const log = {all: '', error: '', warning: '', info: ''};
+                        const log = { all: '', error: '', warning: '', info: '' };
                         const convertLogs = util.convertLog(rst.log);
                         Object.keys(convertLogs).forEach((key) => {
                             if (convertLogs[key]) {
