@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      class="list-view-phantom"       
+      class="list-view-phantom"
       :style="{
         width: contentWidth + 'px'
-      }">
+    }">
     </div>
     <div
       ref="content"
@@ -16,8 +16,8 @@
         }"
         v-for="(col, index) in visibleData"
         :key="index">
-        <slot 
-          :col="col" 
+        <slot
+          :col="col"
           :index="index"></slot>
       </div>
     </div>
@@ -40,17 +40,14 @@ export default {
             type: Array,
             required: true,
         },
-
         estimatedItemSize: {
             type: Number,
             default: 30,
         },
-
         itemSizeGetter: {
             type: Function,
         },
     },
-
     data() {
         return {
             viewWidth: 0,
@@ -83,7 +80,7 @@ export default {
     },
     computed: {
         contentWidth() {
-            const { data, lastMeasuredIndex, estimatedItemSize } = this;
+            const {data, lastMeasuredIndex, estimatedItemSize} = this;
             let itemCount = data.length;
             if (lastMeasuredIndex >= 0) {
                 const lastMeasuredSizeAndOffset = this.getLastMeasuredSizeAndOffset();
@@ -96,11 +93,11 @@ export default {
     watch: {
         data: {
             handler() {
-                let { v, h } = this.cacheVH;
+                let {v, h} = this.cacheVH;
                 this.handleScroll(v, h);
             },
             deep: true,
-        },  
+        },
     },
     mounted() {
         this.updateVisibleData();
@@ -108,7 +105,7 @@ export default {
     },
     methods: {
         getItemSizeAndOffset(index) {
-            const { lastMeasuredIndex, sizeAndOffsetCahce, data, itemSizeGetter } = this;
+            const {lastMeasuredIndex, sizeAndOffsetCahce, data, itemSizeGetter} = this;
             if (lastMeasuredIndex >= index) {
                 return sizeAndOffsetCahce[index];
             }
@@ -139,25 +136,21 @@ export default {
             }
             return sizeAndOffsetCahce[index];
         },
-    
         getLastMeasuredSizeAndOffset() {
-            return this.lastMeasuredIndex >= 0 ? this.sizeAndOffsetCahce[this.lastMeasuredIndex] : { offset: 0, size: 0 };
+            return this.lastMeasuredIndex >= 0 ? this.sizeAndOffsetCahce[this.lastMeasuredIndex] : {offset: 0, size: 0};
         },
-  
         findNearestItemIndex(scrollLeft) {
-            const { data } = this;
+            const {data} = this;
             let total = 0;
             for (let i = 0, j = data.length; i < j; i++) {
                 const size = this.getItemSizeAndOffset(i).size;
                 total += size;
-                if (total >= scrollLeft || i === j - 1) {
+                if (total >= scrollLeft || i === j -1) {
                     return i;
                 }
             }
-
             return 0;
         },
-
         updateVisibleData(scrollLeft) {
             let canScrollWidth = this.contentWidth - this.viewWidth;
             scrollLeft = scrollLeft || 0;
@@ -168,13 +161,12 @@ export default {
             const end = this.findNearestItemIndex(scrollLeft + (this.$el.clientWidth || 1400));
             this.visibleData = this.data.slice(start, Math.min(end + 3, this.data.length));
             this.startIndex = start;
-            this.$refs.content.style.webkitTransform = `translate3d(${this.getItemSizeAndOffset(start).offset}px, 0, 0)`;
+            this.$refs.content.style.webkitTransform = `translate3d(${ this.getItemSizeAndOffset(start).offset }px, 0, 0)`;
         },
-
         handleScroll(v, h) {
-            const { scrollLeft } = h;
-            this.cacheVH = { v, h };
-            this.$emit('on-scroll', { v, h });
+            const {scrollLeft} = h;
+            this.cacheVH = {v, h};
+            this.$emit('on-scroll', {v, h});
             this.updateVisibleData(scrollLeft);
         },
     },
@@ -189,7 +181,6 @@ right: 0;
 z-index: -1;
 height: 100%;
 }
-
 .list-view-content {
 display: flex;
 left: 0;
@@ -198,7 +189,6 @@ top: 0;
 position: absolute;
 height: 100%;
 }
-
 .list-view-item {
 height: 100%;
 color: #666;
