@@ -43,8 +43,12 @@
               <DropdownMenu slot="list">
                 <DropdownItem name="fullScreen">全屏</DropdownItem>
                 <DropdownItem name="releaseFullScreen">取消全屏</DropdownItem>
-                <DropdownItem name="min">最小化</DropdownItem>
-                <DropdownItem name="releaseMin">取消最小化</DropdownItem>
+                <DropdownItem
+                  name="min"
+                  v-if="!scriptViewState.bottomPanelMin">最小化</DropdownItem>
+                <DropdownItem
+                  name="releaseMin"
+                  v-else>取消最小化</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -183,7 +187,9 @@ export default {
         },
         configLogPanel(name) {
             if (name == 'fullScreen' || name == 'releaseFullScreen') {
-                this.$refs.bottomPanel[name]();
+                this.$refs.bottomPanel[name]({
+                    isDiy: false,
+                });
             }
             if (name == 'min') {
                 this.scriptViewState.bottomPanelHeight = 32;
@@ -199,9 +205,8 @@ export default {
         },
         changeResultSet(data, cb) {
             const resultSet = _.isUndefined(data.currentSet) ? this.script.resultSet : data.currentSet;
-            this.$set(this.script.resultList[data.lastSet], 'result', data.lastResult);
-            // 拿到index对应的result
-            const resultPath = this.script.resultList[resultSet].path;
+            const findResult = this.script.resultList.find((item) => item.name === `_${resultSet}.dolphin`);
+            const resultPath = findResult && findResult.path;
             const hasResult = this.script.resultList[resultSet].hasOwnProperty('result');
             if (!hasResult) {
                 const pageSize = 5000;

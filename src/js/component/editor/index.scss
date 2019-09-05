@@ -4,10 +4,24 @@
 	height: 100%;
 	width: 100%;
 
-	.monaco-editor {
+	.monaco-editor.vs {
 		.overflow-guard {
 			.monaco-scrollable-element {
-				left: 82px !important;
+				.token {
+					&.log-error {
+						color: red;
+						font-weight: bold;
+					}
+					&.log-warn {
+						color: yellow;
+					}
+					&.log-info {
+						color: blue;
+					}
+					&.log-date {
+						color: green;
+					}
+				}
 			}
 		}
 	}
