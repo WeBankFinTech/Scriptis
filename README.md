@@ -9,7 +9,7 @@ English | [Chinese](docs/zh_CN/README.md)
 
 Scriptis is for interactive data analysis with script development(SQL, Pyspark, HiveQL), task submission(Spark, Hive), UDF, function, resource management and intelligent diagnosis.
 
-![运行时功能](docs/en_US/images/readme/running.gif)
+![running](docs/en_US/images/readme/running.gif)
 
 ## Features
 
