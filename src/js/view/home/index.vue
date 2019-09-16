@@ -46,7 +46,7 @@
       <we-panel-item
         :index="2"
         class="center-panel">
-        <template scope="props">
+        <template slot-scope="props">
           <workbench
             :width="props.width"
             v-if="props.width"/>

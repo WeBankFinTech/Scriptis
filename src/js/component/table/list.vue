@@ -29,7 +29,7 @@
 </template>
 <script>
 import listBody from './body.vue';
-import vueScroll from './vuescroll/vuescroll-native.js';
+const vueScroll = require('./vuescroll/vuescroll-native.js');
 export default {
     components: {
         vueScroll,
