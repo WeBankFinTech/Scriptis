@@ -391,7 +391,7 @@ export default {
                 let isParseSuccess = true;
                 if (lang === 'hql') {
                     const val = value || vm.value;
-                    const validParser = vm.isParserClose ? null : sqlParser.parser.parseSyntax(val, 'hive');
+                    const validParser = vm.isParserClose ? null : parser.parseSyntax(val, 'hive');
                     let newDecora = [];
                     if (validParser) {
                         isParseSuccess = false;
