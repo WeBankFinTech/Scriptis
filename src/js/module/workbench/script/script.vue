@@ -119,6 +119,7 @@
 <script>
 import _ from 'lodash';
 import api from '@/js/service/api';
+import storage from '@/js/helper/storage';
 import util from '@/js/util';
 import module from '../index';
 import { Script } from '../modal.js';
@@ -145,7 +146,14 @@ export default {
     },
     data() {
         return {
-            script: null,
+            script: {
+                data: '',
+                oldData: '',
+                result: {},
+                steps: [],
+                progress: {},
+                resultList: null,
+            },
             scriptViewState: {
                 showPanel: 'log',
                 height: 0,
@@ -178,20 +186,12 @@ export default {
     watch: {
         'script.data': function() {
             if (!this.work.ismodifyByOldTab) {
-                if (this.script.data == this.script.oldData) {
-                    this.work.unsave = false;
-                } else {
-                    this.work.unsave = true;
-                }
+                this.work.unsave = this.script.data != this.script.oldData;
             }
         },
         'script.oldData': function() {
             if (!this.work.ismodifyByOldTab) {
-                if (this.script.data == this.script.oldData) {
-                    this.work.unsave = false;
-                } else {
-                    this.work.unsave = true;
-                }
+                this.work.unsave = this.script.data != this.script.oldData;
             }
         },
         'execute.run': function(val) {
@@ -215,6 +215,7 @@ export default {
         this.userName = this.getUserName();
         // 如果当前work存在data，表示工作已经被打开
         if (this.work.data) {
+            delete this.work.data.oldData;
             this.script = this.work.data;
             // 用缓存的scriptViewState替换当前this.scriptViewState
             this.scriptViewState = this.script.scriptViewState;
@@ -231,14 +232,13 @@ export default {
                 data: this.work.code,
                 params: this.work.params,
             }));
-            // 删掉无用的code和params，因为已经存储在script对象中
-            delete this.work.code;
-            delete this.work.params;
             // 把新创建的scriptViewState挂到script对象上
-
             this.script.scriptViewState = this.scriptViewState;
         }
-
+        // 删掉无用的code和params，因为已经存储在script对象中
+        delete this.work.code;
+        delete this.work.params;
+        this.script.oldData = this.script.data;
         this.dispatch('IndexedDB:getResult', { tabId: this.script.id,
             cb: (resultList) => {
                 if (resultList) {
@@ -269,9 +269,9 @@ export default {
         this.dispatch('IndexedDB:getHistory', { tabId: this.script.id,
             cb: (historyList) => {
                 this.script.history = _.dropRight(_.values(historyList));
-                this.script.status = this.script.history.length ? this.script.history[0].status : 'Inited';
             } });
         let cacheWork = await this.getCacheWork(this.work);
+        this._running_scripts_key = 'running_scripts_' + this.userName;
         if (cacheWork) {
             let { data, taskID, execID } = cacheWork;
             // cacheWork.taskID && .execID && cacheWork.data && cacheWork.data.running
@@ -287,7 +287,27 @@ export default {
                 this.work.execID = execID;
                 this.work.taskID = taskID;
             }
+        } else { // 脚本正在执行中关掉了Tab，之后再打开页面，执行进度恢复
+            let runningScripts = storage.get(this._running_scripts_key, 'local') || {};
+            if (runningScripts[this.script.id]) {
+                // 存在execID表示任务已经在执行，否则任务已提交或排尚未真正执行
+                if (runningScripts[this.script.id].execID) {
+                    this.script.steps = runningScripts[this.script.id].steps;
+                    this.script.progress = runningScripts[this.script.id].progress;
+                    this.run({
+                        taskID: runningScripts[this.script.id].taskID,
+                        execID: runningScripts[this.script.id].execID,
+                        isRestore: true,
+                        id: this.script.id,
+                    });
+                    this.work.execID = runningScripts[this.script.id].execID;
+                    this.work.taskID = runningScripts[this.script.id].taskID;
+                }
+            } else {
+                this.script.status = 'Inited';
+            }
         }
+
         this.dispatch('IndexedDB:recordTab', this.work);
         this.dispatch('IndexedDB:updateGlobalCache', {
             id: this.userName,
@@ -310,6 +330,22 @@ export default {
     },
     beforeDestroy() {
         clearTimeout(this.autoSaveTimer);
+        let runningScripts = storage.get(this._running_scripts_key, 'local') || {};
+        if (this.script.running && this.execute.taskID && this.execute.id) {
+            runningScripts[this.script.id] = {
+                execID: this.execute.id,
+                taskID: this.execute.taskID,
+                progress: this.script.progress,
+                steps: this.script.steps,
+            };
+        } else {
+            delete runningScripts[this.script.id];
+        }
+        storage.set(this._running_scripts_key, runningScripts, 'local');
+        if (this.execute) {
+            this.execute.off();
+            this.execute = null;
+        }
         window.onbeforeunload = null;
         this.scriptViewState.bottomPanelHeight = this.scriptViewState.cacheBottomPanelHeight || this.scriptViewState.bottomPanelHeight;
     },
@@ -320,12 +356,13 @@ export default {
             }
         },
         'Workbench:socket'({ type, ...args }) {
+            if (type === 'downgrade') {
+                this.postType = 'http';
+            }
             if (this.execute) {
                 this.execute.trigger(type, Object.assign(args, {
                     execute: this.execute,
                 }));
-            } else if (type === 'downgrade') {
-                this.postType = 'http';
             }
         },
         'Workbench:run'(option, cb) {
@@ -603,7 +640,15 @@ export default {
                 } else {
                     progressInfo = [];
                 }
+
+                if (progress == 1) {
+                    let runningScripts = storage.get(this._running_scripts_key, 'local') || {};
+                    delete runningScripts[this.script.id];
+                    storage.set(this._running_scripts_key, runningScripts, 'local');
+                }
+
                 this.script.progress.current = progress;
+
                 if (waitingSize !== null && waitingSize >= 0) {
                     this.script.progress.waitingSize = waitingSize;
                 }
@@ -726,7 +771,6 @@ export default {
         },
         resetData() {
             // upgrade only one time
-            this.postType = 'socket';
             this.script.result = null;
             this.script.log = { all: '', error: '', warning: '', info: '' };
             this.script.logLine = 1;
