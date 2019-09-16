@@ -4,7 +4,7 @@ Scriptis is a data analysis tool based on Linkis. Before deploying Scriptis, you
 
 1. Select the corresponding installation package to download.
 
-2. Unzip the downloaded installation package in the installation directory: unzip wedatasphere-scriptis-0.6.0-dist.zip.
+2. Unzip the downloaded installation package in the installation directory: unzip wedatasphere-scriptis-0.7.0-dist.zip.
 
 ## 2 Deploy
 
