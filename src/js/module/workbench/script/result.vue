@@ -110,12 +110,12 @@
 <script>
 import _ from 'lodash';
 import util from '@/js/util';
-import WeTable from '@js/component/table';
+import Table from '@js/component/table';
 import WeToolbar from './toolbar.vue';
 import elementResizeEvent from '@js/helper/elementResizeEvent';
 export default {
     components: {
-        WeTable,
+        WeTable: Table.WeTable,
         WeToolbar,
     },
     props: {
@@ -129,7 +129,6 @@ export default {
                     total: 0,
                     path: '',
                     cache: {
-
                     },
                 };
             },
@@ -184,7 +183,6 @@ export default {
             });
             return obj;
         },
-
         resultHeight: function() {
             return this.height - 80 + 'px';
         },
@@ -357,7 +355,6 @@ export default {
             let page = this.$refs.page.$el;
             let margin = (page.clientWidth || 0) / 2;
             page.style.marginLeft = -margin + 'px';
-
             let ele = this.$refs.view;
             let computedStyle = getComputedStyle(ele);
             let h = ele.clientHeight;
