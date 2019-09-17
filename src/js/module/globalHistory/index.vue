@@ -27,7 +27,7 @@
           v-model="searchBar.proxyUser"
           placeholder="请输入用户名搜索"
           style="width:120px;"
-          :readonly="isLogModuleShow"></Input>
+          :readonly="isLogModuleShow" />
       </FormItem>
       <Divider
         type="vertical"
@@ -148,14 +148,13 @@ import log from './log.vue';
 import Module from './index';
 import api from '@/js/service/api';
 import util from '@/js/util';
-import envMixin from '@js/service/mixin';
 export default {
     name: 'GlobalHistory',
     components: {
         historyTable: table.historyTable,
         log,
     },
-    mixins: [Module.mixin, envMixin],
+    mixins: [Module.mixin],
     data() {
         return {
             list: [],

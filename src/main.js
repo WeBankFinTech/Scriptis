@@ -5,14 +5,15 @@ import VueRouter from 'vue-router'
 import App from './js/view/app.vue'
 import router from './js/service/router'
 import './js/module'
-import './js/service/mixin'
 import component from './js/component'
+import mixin from '../src/js/service/mixin'
 
 Vue.config.productionTip = false
 
 Vue.use(iView)
 Vue.use(VueRouter)
 Vue.use(component)
+Vue.mixin(mixin);
 
 new Vue({
     router,

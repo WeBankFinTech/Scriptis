@@ -40,6 +40,7 @@ function Execute(data) {
     });
     this.on('execute:queryState', () => {
         this.queryStatus({ isKill: false });
+        this.queryProgress();
     });
     this.on('stateEnd', () => {
         this.getResultPath();
@@ -121,9 +122,6 @@ function Execute(data) {
     });
     this.on('downgrade', ({ data, execute }) => {
         execute.postType = 'http';
-        if (data) {
-            execute.httpExecute();
-        }
     });
     this.on('dataError', ({ data, execute }) => {
         execute.run = false;
@@ -155,6 +153,9 @@ Execute.prototype.restore = function({ execID, taskID }) {
 };
 Execute.prototype.on = function(name, cb) {
     this.event.$on(name, cb);
+};
+Execute.prototype.off = function() {
+    this.event.$off();
 };
 Execute.prototype.once = function(name, cb) {
     this.event.$once(name, cb);
