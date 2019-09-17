@@ -1,6 +1,6 @@
 {
   "name": "scriptis",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -40,6 +40,7 @@
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
+    "filemanager-webpack-plugin": "^2.0.5",
     "monaco-editor-webpack-plugin": "^1.7.0",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",

@@ -9,7 +9,6 @@ import _ from 'lodash';
 import { parser } from 'dt-sql-parser';
 import storage from '@/js/helper/storage';
 import highRiskGrammar from './highRiskGrammar';
-
 const types = {
     code: {
         theme: 'defaultView',
@@ -51,8 +50,9 @@ export default {
             editor: null,
             editorModel: null,
             decorations: null,
-            parseErrorLine: 0,
             isParserClose: false,
+            closeParser: null,
+            openParser: null,
         };
     },
     computed: {
@@ -86,8 +86,10 @@ export default {
         'value': function(newValue, oldValue) {
             if (this.editor) {
                 this.$emit('on-operator');
-                this.sqlParser(newValue);
-                if (newValue == this.getValue()) {
+                if (!this.isParserClose) {
+                    this.sqlParser(newValue);
+                }
+                if (newValue == this.getValue() ) {
                     return;
                 }
                 let readOnly = this.editor.getConfiguration().readOnly;
@@ -126,8 +128,9 @@ export default {
                 this.editor = monaco.editor.create(this.$el, this.currentConfig);
                 this.monaco = monaco;
                 this.editorModel = this.editor.getModel();
+                this.isParserClose = !!storage.get('isParserClose', 'local');
                 if (this.type !== 'log') {
-                    if (this.scriptType !== 'hdfsScript' && !this.readOnly) {
+                    if (this.scriptType !== 'hdfsScript' && !this.readOnly ) {
                         this.addCommands();
                         this.addActions();
                     }
@@ -168,7 +171,6 @@ export default {
             folded sections
             for a certain model when it is connected to an editor instance.
             Once the same model is connected to the same or a different editor instance, editor.restoreViewState can be used to restore the above listed state.
-
             There are very many things that influence how rendering occurs:
             the current theme
             the current wrapping settings set on the editor
@@ -253,7 +255,6 @@ export default {
             if (window.monaco) {
                 const monaco = window.monaco;
                 const vm = this;
-
                 this.editor.addAction({
                     id: 'editor.action.execute',
                     label: '运行脚本',
@@ -265,7 +266,6 @@ export default {
                         vm.$emit('on-run');
                     },
                 });
-
                 this.editor.addAction({
                     id: 'format',
                     label: '格式化',
@@ -277,7 +277,6 @@ export default {
                         editor.trigger('anyString', 'editor.action.formatDocument');
                     },
                 });
-
                 this.editor.addAction({
                     id: 'find',
                     label: '查找',
@@ -289,7 +288,6 @@ export default {
                         editor.trigger('find', 'actions.find');
                     },
                 });
-
                 this.editor.addAction({
                     id: 'replace',
                     label: '替换',
@@ -301,7 +299,6 @@ export default {
                         editor.trigger('findReplace', 'editor.action.startFindReplaceAction');
                     },
                 });
-
                 this.editor.addAction({
                     id: 'commentLine',
                     label: '行注释',
@@ -313,7 +310,6 @@ export default {
                         editor.trigger('commentLine', 'editor.action.commentLine');
                     },
                 });
-
                 this.editor.addAction({
                     id: 'paste',
                     label: '粘贴',
@@ -331,7 +327,6 @@ export default {
                         return null;
                     },
                 });
-
                 this.editor.addAction({
                     id: 'gotoLine',
                     label: '跳到指定行',
@@ -343,11 +338,10 @@ export default {
                         editor.trigger('gotoLine', 'editor.action.gotoLine');
                     },
                 });
-
                 if (this.language === 'hql') {
                     // 控制语法检查
-                    const closeParser = this.editor.createContextKey('closeParser', true);
-                    const openParser = this.editor.createContextKey('openParser', false);
+                    this.closeParser = this.editor.createContextKey('closeParser', !this.isParserClose);
+                    this.openParser = this.editor.createContextKey('openParser', this.isParserClose);
                     this.editor.addAction({
                         id: 'closeParser',
                         label: '关闭语法检查',
@@ -358,14 +352,14 @@ export default {
                         contextMenuGroupId: 'control',
                         contextMenuOrder: 2.0,
                         run(editor) {
+                            storage.set('isParserClose', true, 'local');
                             vm.isParserClose = true;
                             // 控制右键菜单的显示
-                            openParser.set(true);
-                            closeParser.set(false);
+                            vm.openParser.set(true);
+                            vm.closeParser.set(false);
                             vm.sqlParser();
                         },
                     });
-
                     this.editor.addAction({
                         id: 'openParser',
                         label: '打开语法检查',
@@ -375,9 +369,10 @@ export default {
                         contextMenuGroupId: 'control',
                         contextMenuOrder: 2.1,
                         run(editor) {
+                            storage.set('isParserClose', false, 'local');
                             vm.isParserClose = false;
-                            openParser.set(false);
-                            closeParser.set(true);
+                            vm.openParser.set(false);
+                            vm.closeParser.set(true);
                             vm.sqlParser();
                         },
                     });
@@ -385,18 +380,18 @@ export default {
             }
         },
         sqlParser: _.debounce(function(value, cb) {
-            const _this = this;
+            const vm = this;
             let highRiskList = [];
-            const lang = _this.language;
-            const app = _this.application;
+            const lang = vm.language;
+            const app = vm.application;
             if (lang === 'python' || (app === 'spark' && ['java', 'hql'].indexOf(lang) !== -1) || app === 'hive') {
                 // 高危语法的高亮
-                highRiskList = _this.setHighRiskGrammar();
-                const decora = _this.decorations || [];
+                highRiskList = vm.setHighRiskGrammar();
+                const decora = vm.decorations || [];
                 let isParseSuccess = true;
                 if (lang === 'hql') {
-                    const val = value || _this.value;
-                    const validParser = _this.isParserClose ? null : parser.parseSyntax(val, 'hive');
+                    const val = value || vm.value;
+                    const validParser = vm.isParserClose ? null : parser.parseSyntax(val, 'hive');
                     let newDecora = [];
                     if (validParser) {
                         isParseSuccess = false;
@@ -426,21 +421,12 @@ export default {
                                 },
                             },
                         }];
-                        // 跳到指定行
-                        const line = validParser.loc.first_line;
-                        if (_this.parseErrorLine !== line) {
-                            _this.parseErrorLine = line;
-                            _this.editor.revealPositionInCenter({
-                                lineNumber: line,
-                                column: validParser.loc.first_column,
-                            });
-                        }
                     }
                     // 第一个参数是旧的，用于清空decorations
-                    _this.decorations = _this.editor.deltaDecorations(decora, newDecora.concat(highRiskList));
-                    _this.$emit('is-parse-success', isParseSuccess);
+                    vm.decorations = vm.editor.deltaDecorations(decora, newDecora.concat(highRiskList));
+                    vm.$emit('is-parse-success', isParseSuccess);
                 } else {
-                    _this.decorations = _this.editor.deltaDecorations(decora, highRiskList);
+                    vm.decorations = vm.editor.deltaDecorations(decora, highRiskList);
                 }
                 if (cb) {
                     cb(isParseSuccess);
