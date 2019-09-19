@@ -358,6 +358,9 @@ export default {
         'Workbench:socket'({ type, ...args }) {
             if (type === 'downgrade') {
                 this.postType = 'http';
+                if (this.execute && this.execute.runCb) {
+                  this.execute.runCb('downgrade');
+                }
             }
             if (this.execute) {
                 this.execute.trigger(type, Object.assign(args, {
@@ -450,6 +453,7 @@ export default {
             const data = this.getExecuteData(option);
             // 执行
             this.execute = new Execute(data);
+            this.execute.runCb = cb;
             this.isLogShow = false;
             this.localLog = {
                 log: { all: '', error: '', warning: '', info: '' },
@@ -808,7 +812,8 @@ export default {
                 });
             } else {
                 cb();
-                this.script.running = false;
+              this.script.steps = []; // socket downgrade事件之前点击运行，终止运行loading后恢复
+              this.script.running = false;
             }
         },
         autoSave() {
