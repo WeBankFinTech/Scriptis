@@ -174,14 +174,9 @@ export default {
                 this.loading = true;
                 this.$emit('on-run', selectCode, (status) => {
                     // status是start表示已经开始执行
-                    if (status === 'start') {
-                        this.loading = false;
-                        // 执行开始时，脚本的按钮设置为running状态
-                        // this.script.running = true;
-                    }
-                    // 当抛出的为错误或者execute接口报错时，loading状态改为false，否则无法再次点击执行
-                    if (status === 'execute' || status === 'error') {
-                        this.loading = false;
+                    let list = ['execute', 'error', 'start', 'downgrade'];
+                    if (list.indexOf(status) > -1) {
+                      this.loading = false;
                     }
                 });
             });

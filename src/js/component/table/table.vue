@@ -180,7 +180,7 @@ export default {
     },
 };
 </script>
-<style lang="scss" src="./index.scss"></style>
+<style lang="sass" src="./index.scss"></style>
 <style>
 .list-view {
 width: 100%;
