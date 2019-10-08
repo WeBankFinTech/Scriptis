@@ -2,7 +2,7 @@
   <div
     class="list-view"
     ref="list">
-    <vue-scroll
+    <vuescroll
       :ops="ops"
       @handle-scroll="handleScroll">
       <list-body
@@ -24,15 +24,15 @@
           </div>
         </div>
       </list-body>
-    </vue-scroll>
+    </vuescroll>
   </div>
 </template>
 <script>
 import listBody from './body.vue';
-import vueScroll from './vuescroll/vuescroll-native.js';
+import vuescroll from 'vuescroll/dist/vuescroll-native';
 export default {
     components: {
-        vueScroll,
+        vuescroll,
         listBody,
     },
     props: {
@@ -77,7 +77,7 @@ export default {
     },
     methods: {
         handleScroll(v, h) {
-            this.$emit('on-scroll', {v, h});
+            this.$emit('on-scroll', { v, h });
             this.$refs.body.handleScroll(v, h);
         },
         columnItemClick(index) {
