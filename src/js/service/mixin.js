@@ -7,6 +7,7 @@ export default{
                 { rule: /\.(bi)$/i, executable: false, logo: 'fi-bi', isCanBeNew: false, isCanBeOpen: true },
                 { rule: /\.(sql)$/i, lang: 'hql', executable: true, application: 'spark', runType: 'sql', ext: '.sql', scriptType: 'hive', abbr: 'sql', logo: 'fi-spark', isCanBeNew: true, label: 'Sql', isCanBeOpen: true },
                 { rule: /\.(hql)$/i, lang: 'hql', executable: true, application: 'hive', runType: 'hql', ext: '.hql', scriptType: 'hql', abbr: 'hql', logo: 'fi-hive', isCanBeNew: true, label: 'Hive', isCanBeOpen: true },
+                { rule: /\.(mlsql)$/i, lang: 'hql', executable: true, application: 'mlsql', runType: 'mlsql', ext: '.mlsql', scriptType: 'mlsql', abbr: 'mlsql', logo: 'fi-spark', isCanBeNew: true, label: 'MLSQL', isCanBeOpen: true },
                 { rule: /\.(out)$/i, lang: 'hql', executable: true, application: 'pipeline', runType: 'pipeline', ext: '.out', scriptType: 'storage', abbr: 'stor', logo: 'fi-storage', isCanBeNew: true, label: 'Storage', isCanBeOpen: true },
                 { rule: /\.scala$/i, lang: 'java', executable: true, application: 'spark', runType: 'scala', ext: '.scala', scriptType: 'scala', abbr: 'scala', logo: 'fi-scala', isCanBeNew: true, label: 'Scala', isCanBeOpen: true },
                 { rule: /\.jdbc$/i, lang: 'hql', executable: true, application: 'jdbc', runType: 'jdbc', ext: '.jdbc', scriptType: 'jdbc', abbr: 'jdbc', logo: 'fi-jdbc', isCanBeNew: true, label: 'JDBC', isCanBeOpen: true },
