@@ -33,13 +33,17 @@ Scriptis is for interactive data analysis with script development(SQL, Pyspark, 
 Read the Quick Start [Quick Start](docs/en_US/ch1/Front-end_deployment_documentation.md)
 
 ## Comparison with similar scheduler systems
+
 ![Comparison](/docs/en_US/images/readme/Comparison.png)
 
 ## Documentations
 
 [Quick Start](docs/en_US/ch1/Front-end_deployment_documentation.md)
+
 [Quick Use](docs/en_US/ch3/Scriptis_Quick_Start.md)
+
 [User Manual](docs/en_US/ch4/Scriptis_Manual.md)
+
 [Compilation](docs/en_US/ch2/Compilation.md)
 
 ## Community
