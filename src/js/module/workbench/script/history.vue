@@ -171,7 +171,7 @@ export default {
             const match = supportModes.find((s) => s.rule.test(params.row.fileName));
             const ext = match ? match.ext : '.hql';
             if (!params.row.logPath) {
-                await api.fetch(`/publicservice/${params.row.taskID}/get`, 'get').then((rst) => {
+                await api.fetch(`/jobhistory/${params.row.taskID}/get`, 'get').then((rst) => {
                     params.row.logPath = rst.task.logPath;
                 });
             }
@@ -196,11 +196,11 @@ export default {
         async downloadLog(params) {
             const name = params.row.fileName + '__' + Date.now() + '.log';
             if (!params.row.logPath) {
-                await api.fetch(`/publicservice/${params.row.taskID}/get`, 'get').then((rst) => {
+                await api.fetch(`/jobhistory/${params.row.taskID}/get`, 'get').then((rst) => {
                     this.$set(params.row, 'logPath', rst.task.logPath);
                 });
             }
-            axios.post(module.data.API_PATH + 'publicservice/download', {
+            axios.post(module.data.API_PATH + 'filesystem/download', {
                 path: params.row.logPath,
             }).then((rst) => {
                 const link = document.createElement('a');

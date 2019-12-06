@@ -96,7 +96,7 @@ export default {
     methods: {
         getJobList() {
             this.jobList = [];
-            api.fetch('/publicservice/list', {
+            api.fetch('/jobhistory/list', {
                 pageSize: 100,
                 status: 'Running,Inited,Scheduled',
             }, 'get').then((rst) => {

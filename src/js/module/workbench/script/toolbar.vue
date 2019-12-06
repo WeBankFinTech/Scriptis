@@ -156,7 +156,7 @@ export default {
             const charset = this.coding === '1' ? 'utf-8' : 'gbk';
             const timestamp = moment.unix(moment().unix()).format('MMDDHHmm');
             const filename = `Result_${this.script.fileName}_${timestamp}`;
-            const url = module.data.API_PATH + 'publicservice/resultsetToExcel?path=' + this.currentPath + '&charset=' + charset + '&outputFileType=' + splitor + '&outputFileName=' + filename;
+            const url = module.data.API_PATH + 'filesystem/resultsetToExcel?path=' + this.currentPath + '&charset=' + charset + '&outputFileType=' + splitor + '&outputFileName=' + filename;
             const link = document.createElement('a');
             link.setAttribute('href', url);
             link.setAttribute('download', '');

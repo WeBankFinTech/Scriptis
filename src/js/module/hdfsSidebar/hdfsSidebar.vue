@@ -235,7 +235,7 @@ export default {
         getRootPath(cb) {
             this.rootPath = storage.get('hdfsRootPath', 'SESSION');
             if (!this.rootPath) {
-                api.fetch(`/publicservice/getUserRootPath`, {
+                api.fetch(`/filesystem/getUserRootPath`, {
                     pathType: 'hdfs',
                 }, 'get').then((rst) => {
                     if (rst.userHDFSRootPath) {
@@ -254,7 +254,7 @@ export default {
             }
         },
         getTree(cb) {
-            api.fetch(`/publicservice/getDirFileTrees`, {
+            api.fetch(`/filesystem/getDirFileTrees`, {
                 path: this.rootPath,
             }, 'get')
                 .then((rst) => {
@@ -354,7 +354,7 @@ export default {
             });
         },
         handleCreating(node, cb) {
-            api.fetch('/publicservice/createNewDir', {
+            api.fetch('/filesystem/createNewDir', {
                 path: node.path,
             }).then(() => {
                 cb(true);
@@ -363,7 +363,7 @@ export default {
             });
         },
         rename(path, oldPath, cb) {
-            api.fetch('/publicservice/rename', {
+            api.fetch('/filesystem/rename', {
                 oldDest: oldPath,
                 newDest: path,
             }).then((rst) => {
@@ -386,7 +386,7 @@ export default {
                         cb(false);
                         return this.$Message.error(`文件${path}已经存在`);
                     }
-                    api.fetch('/publicservice/rename', {
+                    api.fetch('/filesystem/rename', {
                         oldDest: args.node.path,
                         newDest: path,
                     }).then(() => {
@@ -435,7 +435,7 @@ export default {
             const path = this.currentNode.data.path;
             this.loading = true;
             this.dispatch('Workbench:remove', path, () => {
-                api.fetch('/publicservice/deleteDirOrFile', {
+                api.fetch('/filesystem/deleteDirOrFile', {
                     path,
                 }).then((rst) => {
                     this.$Message.success('删除成功');
@@ -481,7 +481,7 @@ export default {
         },
         loadDataFn(node, cb) {
             this.treeLoading = true;
-            api.fetch(`/publicservice/getDirFileTrees`, {
+            api.fetch(`/filesystem/getDirFileTrees`, {
                 path: node.data.path,
             }, 'get')
                 .then((rst) => {
@@ -529,7 +529,7 @@ export default {
                     nodePath = path.slice(0, path.lastIndexOf('/'));
                 }
                 if (_.isEmpty(this.fileTree)) return this.initData();
-                api.fetch(`/publicservice/getDirFileTrees`, {
+                api.fetch(`/filesystem/getDirFileTrees`, {
                     path: nodePath,
                 }, 'get')
                     .then((rst) => {
@@ -667,7 +667,7 @@ export default {
                 escapeQuotes = true;
                 quote = option.quote;
             }
-            const url = `/publicservice/formate?path=${option.exportPath}&encoding=${encoding}&fieldDelimiter=${fieldDelimiter}&hasHeader=${option.isHasHeader}&escapeQuotes=${escapeQuotes}&quote=${quote}`;
+            const url = `/filesystem/formate?path=${option.exportPath}&encoding=${encoding}&fieldDelimiter=${fieldDelimiter}&hasHeader=${option.isHasHeader}&escapeQuotes=${escapeQuotes}&quote=${quote}`;
             api.fetch(url, {}, {
                 method: 'get',
                 timeout: '600000',

@@ -180,7 +180,7 @@ export default {
     created() {
         this.initTreeData();
         this.$nextTick(() => {
-            api.fetch('/publicservice/authenticate').then((rst) => {
+            api.fetch('/udf/authenticate').then((rst) => {
                 this.isUdfManager = rst.isUDFManager;
             });
         });
@@ -191,7 +191,7 @@ export default {
             const fnTree = storage.get(tmp, 'SESSION');
             if (!fnTree || _.isEmpty(fnTree)) {
                 this.treeLoading = true;
-                api.fetch('/publicservice/list', {
+                api.fetch('/udf/list', {
                     type: 'self',
                     treeId: -1,
                     category: this.FNTYPE,
@@ -222,7 +222,7 @@ export default {
         benchCheck(...args) {
             if (this.loading) return this.$Message.warning('请等待接口返回！');
             const node = args[0].node.data;
-            const url = `/publicservice/isload`;
+            const url = `/udf/isload`;
             this.loading = true;
             api.fetch(url, {
                 udfId: node.id,
@@ -252,7 +252,7 @@ export default {
             let params = null;
             let url = null;
             if (!data.isLeaf) {
-                url = '/publicservice/tree/add';
+                url = '/udf/tree/add';
                 params = {
                     parent: this.currentNode.data.id,
                     name: data.name,
@@ -261,7 +261,7 @@ export default {
                 };
                 this.calling(url, params, 'new', data.isLeaf);
             } else {
-                url = '/publicservice/add';
+                url = '/udf/add';
                 params = {
                     isShared: data.shared,
                     udfInfo: {
@@ -293,7 +293,7 @@ export default {
             let params = null;
             let url = null;
             if (!data.isLeaf) {
-                url = '/publicservice/tree/update';
+                url = '/udf/tree/update';
                 params = {
                     id: this.currentNode.data.id,
                     parent: this.currentNode.parent.data.id,
@@ -302,7 +302,7 @@ export default {
                     category: this.FNTYPE,
                 };
             } else {
-                url = '/publicservice/update';
+                url = '/udf/update';
                 params = {
                     isShared: data.shared,
                     udfInfo: {
@@ -413,12 +413,12 @@ export default {
             let url;
             let param;
             if (this.currentNode.isLeaf) {
-                url = `/publicservice/delete/${this.currentNode.data.id}`;
+                url = `/udf/delete/${this.currentNode.data.id}`;
                 param = {
                     isShared: this.currentNode.data.shared,
                 };
             } else {
-                url = `/publicservice/tree/delete/${this.currentNode.data.id}`;
+                url = `/udf/tree/delete/${this.currentNode.data.id}`;
                 param = {};
             }
             api.fetch(url, param, 'get').then((rst) => {
@@ -436,7 +436,7 @@ export default {
             if (this.treeLoading) return this.$Message.warning('请等待接口返回！');
             this.treeLoading = true;
             const node = this.fnTree.find((item) => item.type === 'share');
-            api.fetch('/publicservice/list', {
+            api.fetch('/udf/list', {
                 type: node.type,
                 treeId: node.id,
                 category: this.FNTYPE,
@@ -447,7 +447,7 @@ export default {
                     const params = {
                         udfName: this.currentNode.data.name,
                     };
-                    api.fetch('/publicservice/getSharedUsers', params).then((rst) => {
+                    api.fetch('/udf/getSharedUsers', params).then((rst) => {
                         this.$refs.share.open({ tree: list, node: this.currentNode, isView: !flag, shareUser: rst.shareUsers.toString() });
                     });
                 }
@@ -481,7 +481,7 @@ export default {
                     useFormat: node.useFormat,
                 },
             };
-            api.fetch('/publicservice/shareUDF', params).then(() => {
+            api.fetch('/udf/shareUDF', params).then(() => {
                 this.loading = false;
                 this.$Message.success(`函数${this.currentNode.data.name}已共享成功！`);
                 this.refresh('edit');
@@ -495,7 +495,7 @@ export default {
                 udfName: this.currentNode.data.name,
                 sharedUsers: option.sharedUsers,
             };
-            api.fetch('/publicservice/updateSharedUsers', params).then(() => {
+            api.fetch('/udf/updateSharedUsers', params).then(() => {
                 this.loading = false;
                 this.$Message.success(`修改共享用户成功！`);
             }).catch((err) => {
@@ -511,7 +511,7 @@ export default {
                         udfId: this.currentNode.data.id,
                         udfName: this.currentNode.data.name,
                     };
-                    api.fetch('/publicservice/setExpire', params).then((rst) => {
+                    api.fetch('/udf/setExpire', params).then((rst) => {
                         this.currentNode.data.shared = false;
                         this.$Message.success('函数已设置为过期，请到共享函数中查看！');
                     });
@@ -564,7 +564,7 @@ export default {
         // 请求文件夹数据
         loadDataFn(node, cb) {
             this.treeLoading = true;
-            api.fetch('/publicservice/list', {
+            api.fetch('/udf/list', {
                 type: node.data.type,
                 treeId: node.data.id,
                 category: this.FNTYPE,
@@ -624,7 +624,7 @@ export default {
                 const parent = this.lookForChangeNode(id, this.fnTree, 'tree');
                 if (parent) {
                     this.treeLoading = true;
-                    api.fetch('/publicservice/list', {
+                    api.fetch('/udf/list', {
                         type: parent.type,
                         treeId: parent.id,
                         category: this.FNTYPE,

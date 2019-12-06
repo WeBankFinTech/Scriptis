@@ -102,7 +102,7 @@ export default {
                 this.msg = '(上传脚本文件不得超过100MB！)';
                 this.maxSize = 102400;
             }
-            this.updateUrl = `${data.apiPrefix}publicservice/upload`;
+            this.updateUrl = `${data.apiPrefix}filesystem/upload`;
         },
 
         // 关闭的时候清空数据
