@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         init() {
-            api.fetch('/publicservice/getBaseInfo', 'get').then((rst) => {
+            api.fetch('/application/getBaseInfo', 'get').then((rst) => {
                 if (!_.isEmpty(rst)) {
                     this.userName = rst.userInfo.basic.userName;
                     storage.set('baseInfo', rst);

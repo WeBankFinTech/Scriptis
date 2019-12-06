@@ -126,7 +126,7 @@ export default {
     },
     methods: {
         getGlobalValiableList() {
-            api.fetch('/publicservice/listGlobalVariable', 'get').then((res) => {
+            api.fetch('/variable/listGlobalVariable', 'get').then((res) => {
                 this.formDynamic.items = res.globalVariables.map((item, index) => {
                     return Object.assign(item);
                 });
@@ -157,7 +157,7 @@ export default {
         },
         save() {
             this.loading = true;
-            api.fetch('/publicservice/saveGlobalVariable ', {
+            api.fetch('/variable/saveGlobalVariable ', {
                 globalVariables: this.formDynamic.items,
             }).then((res) => {
                 this.loading = false;

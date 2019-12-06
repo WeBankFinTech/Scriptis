@@ -119,7 +119,7 @@ export default {
     watch: {
         listenResource(val) {
             if (!val) {
-                api.fetch('/publicservice/list', {
+                api.fetch('/jobhistory/list', {
                     pageSize: 100,
                     status: 'Running,Inited,Scheduled',
                 }, 'get').then((rst) => {
@@ -176,7 +176,7 @@ export default {
                     // status是start表示已经开始执行
                     let list = ['execute', 'error', 'start', 'downgrade'];
                     if (list.indexOf(status) > -1) {
-                      this.loading = false;
+                        this.loading = false;
                     }
                 });
             });

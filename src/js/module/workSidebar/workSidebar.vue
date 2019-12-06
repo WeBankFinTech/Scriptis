@@ -250,7 +250,7 @@ export default {
         getRootPath(cb) {
             this.rootPath = storage.get('shareRootPath', 'SESSION');
             if (!this.rootPath) {
-                api.fetch(`/publicservice/getUserRootPath`, {
+                api.fetch(`/filesystem/getUserRootPath`, {
                     pathType: 'file',
                 }, 'get').then((rst) => {
                     if (rst.userLocalRootPath) {
@@ -269,7 +269,7 @@ export default {
             }
         },
         getTree(cb) {
-            api.fetch(`/publicservice/getDirFileTrees`, {
+            api.fetch(`/filesystem/getDirFileTrees`, {
                 path: this.rootPath,
             }, 'get')
                 .then((rst) => {
@@ -364,8 +364,8 @@ export default {
         },
         handleCreating(node, cb) {
             const url = node.isLeaf
-                ? '/publicservice/createNewFile'
-                : '/publicservice/createNewDir';
+                ? '/filesystem/createNewFile'
+                : '/filesystem/createNewDir';
             api.fetch(url, {
                 path: node.path,
             }).then(() => {
@@ -375,7 +375,7 @@ export default {
             });
         },
         rename(path, oldPath, cb) {
-            api.fetch('/publicservice/rename', {
+            api.fetch('/filesystem/rename', {
                 oldDest: oldPath,
                 newDest: path,
             }).then((rst) => {
@@ -398,7 +398,7 @@ export default {
                         cb(false);
                         return this.$Message.error(`文件${path}已经存在`);
                     }
-                    api.fetch('/publicservice/rename', {
+                    api.fetch('/filesystem/rename', {
                         oldDest: args.node.path,
                         newDest: path,
                     }).then(() => {
@@ -450,7 +450,7 @@ export default {
                 // 否则调用接口，文件在后台删除，前台保存会报错！
                 if (flag === 'save' || flag === 'none') {
                     this.loading = true;
-                    api.fetch('/publicservice/deleteDirOrFile', {
+                    api.fetch('/filesystem/deleteDirOrFile', {
                         path,
                     }).then((rst) => {
                         this.loading = false;
@@ -503,7 +503,7 @@ export default {
         loadDataFn(node, cb) {
             this.treeLoading = true;
             api.fetch(
-                `/publicservice/getDirFileTrees`, {
+                `/filesystem/getDirFileTrees`, {
                     path: node.data.path,
                 },
                 'get'
@@ -557,7 +557,7 @@ export default {
                 } else if (type === 'new' && path) {
                     nodePath = path.slice(0, path.lastIndexOf('/'));
                 }
-                api.fetch(`/publicservice/getDirFileTrees`, {
+                api.fetch(`/filesystem/getDirFileTrees`, {
                     path: nodePath,
                 }, 'get').then((rst) => {
                     this.treeLoading = false;
@@ -707,7 +707,7 @@ export default {
             // 没有children数据，请求加载目录数据之后展开目录，已加载数据则直接展开
             if (needLoadDirs.length > 0) {
                 const loadDirPromises = needLoadDirs.map((path) => {
-                    return api.fetch(`/publicservice/getDirFileTrees`, {
+                    return api.fetch(`/filesystem/getDirFileTrees`, {
                         path: path,
                     }, 'get').then((res) => res.dirFileTrees);
                 });
@@ -834,7 +834,7 @@ export default {
                 escapeQuotes = true;
                 quote = option.quote;
             }
-            const url = `/publicservice/formate?path=${option.exportPath}&encoding=${encoding}&fieldDelimiter=${fieldDelimiter}&hasHeader=${option.isHasHeader}&escapeQuotes=${escapeQuotes}&quote=${quote}`;
+            const url = `/filesystem/formate?path=${option.exportPath}&encoding=${encoding}&fieldDelimiter=${fieldDelimiter}&hasHeader=${option.isHasHeader}&escapeQuotes=${escapeQuotes}&quote=${quote}`;
             api.fetch(url, {}, {
                 method: 'get',
                 timeout: '600000',

@@ -373,25 +373,26 @@ export default {
                 const match = supportModes.find((s) => s.rule.test(params.row.fileName));
                 const ext = match ? match.ext : '.hql';
                 if (!params.row.logPath) {
-                    await api.fetch(`/query/${params.row.taskID}/get`, 'get').then((rst) => {
+                    await api.fetch(`/jobhistory/${params.row.taskID}/get`, 'get').then((rst) => {
                         params.row.logPath = rst.task.logPath;
                     });
                 }
                 const name = `history_item_${params.row.taskID}${ext}`;
                 const md5Id = util.md5(name);
-                this.$router.push({path: '/', query: {
-                    id: md5Id,
-                    taskID: params.row.taskID,
-                    filename: name,
-                    filepath: '',
-                    saveAs: true,
-                    type: 'historyScript',
-                    code: params.row.executionCode,
-                }});
+                this.$router.push({ path: '/',
+                    query: {
+                        id: md5Id,
+                        taskID: params.row.taskID,
+                        filename: name,
+                        filepath: '',
+                        saveAs: true,
+                        type: 'historyScript',
+                        code: params.row.executionCode,
+                    } });
             }
         },
         getLogs(jobId) {
-            api.fetch(`/query/${jobId}/get`, 'get').then((res) => {
+            api.fetch(`/jobhistory/${jobId}/get`, 'get').then((res) => {
                 this.searchBar.lastId = Number(this.searchBar.id);
                 this.searchBar.id = jobId;
                 this.searchBar.lastProxyUser = this.searchBar.proxyUser;
@@ -401,7 +402,7 @@ export default {
                     const errCode = res.task.errCode ? '\n错误码：' + res.task.errCode : '';
                     const errDesc = res.task.errDesc ? '\n错误描述：' + res.task.errDesc : '';
                     const info = '未获取到日志！' + errCode + errDesc;
-                    this.logs = {all: info, error: '', warning: '', info: ''};
+                    this.logs = { all: info, error: '', warning: '', info: '' };
                     this.fromLine = 1;
                     return;
                 }
@@ -411,7 +412,7 @@ export default {
                 }, 'get').then((rst) => {
                     this.isLoading = false;
                     if (rst) {
-                        const log = {all: '', error: '', warning: '', info: ''};
+                        const log = { all: '', error: '', warning: '', info: '' };
                         const convertLogs = util.convertLog(rst.log);
                         Object.keys(convertLogs).forEach((key) => {
                             if (convertLogs[key]) {
@@ -470,7 +471,7 @@ export default {
         changePage(page) {
             this.isLoading = true;
             const params = this.getParams(page);
-            api.fetch('/publicservice/list', params, 'get').then((rst) => {
+            api.fetch('/jobhistory/list', params, 'get').then((rst) => {
                 this.isLoading = false;
                 this.list = rst.tasks;
                 this.pageSetting.current = page;
@@ -483,7 +484,7 @@ export default {
         search() {
             this.isLoading = true;
             const params = this.getParams();
-            api.fetch('/publicservice/list', params, 'get').then((rst) => {
+            api.fetch('/jobhistory/list', params, 'get').then((rst) => {
                 this.pageSetting.total = rst.totalPage;
                 this.isLoading = false;
                 this.list = rst.tasks;

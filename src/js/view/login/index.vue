@@ -87,7 +87,7 @@ export default {
     },
     methods: {
         getIfLogin() {
-            api.fetch('/publicservice/getBaseInfo', 'get').then((rst) => {
+            api.fetch('/application/getBaseInfo', 'get').then((rst) => {
                 this.$router.push('/');
             }).catch((err) => {
                 this.clearSession();

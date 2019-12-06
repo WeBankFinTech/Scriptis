@@ -356,7 +356,7 @@ export default {
             cb && cb(true);
         },
         'Workbench:checkExist'(option, cb) {
-            api.fetch('/publicservice/isExist', {
+            api.fetch('/filesystem/isExist', {
                 path: option.path,
             }, 'get').then((rst) => {
                 // 如果文件已存在，则返回false
@@ -381,7 +381,7 @@ export default {
             }
             const md5Path = util.md5(option.path);
             const methodName = 'Workbench:add';
-            api.fetch('/publicservice/openFile', {
+            api.fetch('/filesystem/openFile', {
                 path: option.path,
             }, 'get').then((rst) => {
                 const ismodifyByOldTab = option.code && !rst.fileContent;

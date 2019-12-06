@@ -110,7 +110,7 @@ export default {
                 creator = IDE;
                 appName = type.slice(IDE.length + 1, type.length);
             }
-            api.fetch('/publicservice/getFullTreesByAppName', {
+            api.fetch('/configuration/getFullTreesByAppName', {
                 appName,
                 creator,
             }, 'get').then((rst) => {
@@ -135,7 +135,7 @@ export default {
         },
         save() {
             this.loading = true;
-            api.fetch('/publicservice/saveFullTree', {
+            api.fetch('/configuration/saveFullTree', {
                 fullTree: this.fullTree,
             }).then((rst) => {
                 this.getAppVariable(this.activeMenu);
