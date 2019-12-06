@@ -7,7 +7,7 @@ export default {
     },
     methods: {
         getGlobalVariable(cb) {
-            api.fetch('/publicservice/listGlobalVariable', 'get').then((res) => {
+            api.fetch('/variable/listGlobalVariable', 'get').then((res) => {
                 cb({
                     list: res.globalVariables,
                     isError: false,

@@ -137,7 +137,7 @@ export default {
             this.scriptViewState = this.script.scriptViewState;
         } else {
             try {
-                api.fetch(`/publicservice/${this.work.taskID}/get`, 'get').then((rst) => {
+                api.fetch(`/jobhistory/${this.work.taskID}/get`, 'get').then((rst) => {
                     const option = rst.task;
                     const supportedMode = _.find(this.getSupportModes(), (p) => p.rule.test(this.work.filename));
                     this.work.data = this.script = new HistoryScript(Object.assign(supportedMode, option, {
@@ -210,7 +210,7 @@ export default {
             const hasResult = this.script.resultList[resultSet].hasOwnProperty('result');
             if (!hasResult) {
                 const pageSize = 5000;
-                const url = '/publicservice/openFile';
+                const url = '/filesystem/openFile';
                 api.fetch(url, {
                     path: resultPath,
                     pageSize,
@@ -258,7 +258,7 @@ export default {
             }
         },
         async getLogs(option) {
-            const url = `/publicservice/openLog`;
+            const url = `/filesystem/openLog`;
             if (!option.logPath) {
                 this.script.log = { all: '', error: '', warning: '', info: '' };
                 this.script.logLine = 1;
@@ -284,7 +284,7 @@ export default {
             });
         },
         async getResult(option) {
-            const url1 = `/publicservice/getDirFileTrees`;
+            const url1 = `/filesystem/getDirFileTrees`;
             await api.fetch(url1, {
                 path: option.resultLocation,
             }, 'get').then((rst) => {
@@ -293,7 +293,7 @@ export default {
                     this.script.resultList = rst.dirFileTrees.children.sort((a, b) => parseInt(a.name, 10) - parseInt(b.name, 10));
                     if (this.script.resultList.length) {
                         const currentResultPath = rst.dirFileTrees.children[0].path;
-                        const url2 = `/publicservice/openFile`;
+                        const url2 = `/filesystem/openFile`;
                         api.fetch(url2, {
                             path: currentResultPath,
                             page: 1,

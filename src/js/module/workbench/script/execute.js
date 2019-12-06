@@ -16,7 +16,7 @@ function Execute(data) {
     this.progress = 0;
     this.id = null;
     this.status = null;
-    // 仅/api/publicservice/${id}/get接口使用
+    // 仅/api/filesystem/${id}/get接口使用
     this.taskID = null;
     this.postType = data.data.postType || 'socket';
     delete data.data.postType;
@@ -77,7 +77,7 @@ function Execute(data) {
             if (execute.data.websocketTag === socketTag && data.method === method) {
                 // clearTimeout(execute.executeTimout);
                 timeoutCheck(execute);
-                api.fetch('/publicservice/list', {
+                api.fetch('/jobhistory/list', {
                     pageSize: 100,
                     status: 'Running,Inited,Scheduled',
                 }, 'get').then((rst) => {
@@ -221,7 +221,7 @@ Execute.prototype.queryLog = function() {
 
 Execute.prototype.getResultPath = function() {
     this.trigger('steps', 'ResultLoading');
-    api.fetch(`/publicservice/${this.taskID}/get`, 'get')
+    api.fetch(`/jobhistory/${this.taskID}/get`, 'get')
         .then((rst) => {
             this.resultsetInfo = rst.task;
             this.trigger('querySuccess', {
@@ -240,7 +240,7 @@ Execute.prototype.getResultPath = function() {
 Execute.prototype.getResultList = function() {
     if (this.resultsetInfo && this.resultsetInfo.resultLocation) {
         api.fetch(
-            '/publicservice/getDirFileTrees', {
+            '/filesystem/getDirFileTrees', {
                 path: `${this.resultsetInfo.resultLocation}`,
             },
             'get'
@@ -273,7 +273,7 @@ Execute.prototype.getFirstResult = function() {
         taskID: this.taskID,
         status: this.status,
     });
-    const url = `/publicservice/openFile`;
+    const url = `/filesystem/openFile`;
     const pageSize = 5000;
     api.fetch(url, {
         path: this.currentResultPath,
@@ -303,7 +303,7 @@ Execute.prototype.updateLastHistory = function(option, cb) {
             failedReason: '',
         });
     }
-    api.fetch(`/publicservice/${this.taskID}/get`, 'get')
+    api.fetch(`/jobhistory/${this.taskID}/get`, 'get')
         .then((res) => {
             const task = res.task;
             if (cb) {
@@ -528,7 +528,7 @@ function setModelAndGetCode(execute, method) {
         const model = method.slice(method.lastIndexOf('/') + 1, method.length);
         if (model === 'backgroundservice') {
             execute.model = 'background';
-            api.fetch(`/publicservice/${execute.taskID}/get`, 'get').then((res) => {
+            api.fetch(`/jobhistory/${execute.taskID}/get`, 'get').then((res) => {
                 execute.executionCode = res.task.executionCode;
                 resolve(execute.executionCode);
             }).catch((err) => {

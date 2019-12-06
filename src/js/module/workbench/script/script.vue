@@ -359,7 +359,7 @@ export default {
             if (type === 'downgrade') {
                 this.postType = 'http';
                 if (this.execute && this.execute.runCb) {
-                  this.execute.runCb('downgrade');
+                    this.execute.runCb('downgrade');
                 }
             }
             if (this.execute) {
@@ -666,7 +666,7 @@ export default {
                 const findHis = _.find(this.script.history, (o) => o.execID === data.execID);
                 if (findHis) {
                     let newItem = null;
-                    api.fetch(`/publicservice/${findHis.taskID}/get`, 'get')
+                    api.fetch(`/jobhistory/${findHis.taskID}/get`, 'get')
                         .then((res) => {
                             newItem = {
                                 taskID: res.task.taskID,
@@ -812,8 +812,8 @@ export default {
                 });
             } else {
                 cb();
-              this.script.steps = []; // socket downgrade事件之前点击运行，终止运行loading后恢复
-              this.script.running = false;
+                this.script.steps = []; // socket downgrade事件之前点击运行，终止运行loading后恢复
+                this.script.running = false;
             }
         },
         autoSave() {
@@ -835,7 +835,7 @@ export default {
                     if (this.work.filepath) {
                         this.work.unsave = false;
                         this.saveLoading = true;
-                        api.fetch('/publicservice/saveScript', params).then((rst) => {
+                        api.fetch('/filesystem/saveScript', params).then((rst) => {
                             this.saveLoading = false;
                             this.$Message.success('保存成功！');
                             // 提交最新的内容，更新script.data和script.oldData
@@ -919,7 +919,7 @@ export default {
             const hasResult = this.script.resultList[resultSet].hasOwnProperty('result');
             if (!hasResult) {
                 const pageSize = 5000;
-                const url = '/publicservice/openFile';
+                const url = '/filesystem/openFile';
                 api.fetch(url, {
                     path: resultPath,
                     pageSize,

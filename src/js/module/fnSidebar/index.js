@@ -6,7 +6,7 @@ export default {
     data: {},
     methods: {
         getAllLoadedFunction(cb) {
-            api.fetch(`/publicservice/all`).then((rst) => {
+            api.fetch(`/udf/all`).then((rst) => {
                 cb({
                     list: rst.udfTree.udfInfos,
                     isError: false,

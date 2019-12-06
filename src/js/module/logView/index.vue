@@ -127,7 +127,7 @@ export default {
                         duration: 1000,
                     });
                 } else if (this.jobId.length > 0) {
-                    await api.fetch(`/query/${this.jobId}/get`, 'get').then((res) => {
+                    await api.fetch(`/jobhistory/${this.jobId}/get`, 'get').then((res) => {
                         const path = res.task.logPath;
                         api.fetch('/filesystem/openLog', {
                             path,
