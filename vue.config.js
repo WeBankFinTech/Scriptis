@@ -11,6 +11,9 @@ const getVersion = () => {
     return pkg.version;
 }
 
+const port = process.env.PORT || 8080
+
+
 module.exports = {
     outputDir: 'dist/dist',
     chainWebpack: (config) => {
@@ -53,6 +56,26 @@ module.exports = {
         mock: {
             entry: 'mock.js',
             power: false
+        }
+    },
+    devServer: {
+        port: port,
+        open: true,
+        overlay: {
+            warnings: false,
+            errors: true
+        },
+        proxy: {
+            [process.env.VUE_APP_MN_CONFIG_PREFIX]: {
+                target: process.env.SERVER_HOST,
+                ws: true,
+                changeOrigin: true,
+            },
+            [process.env.VUE_APP_MN_CONFIG_SOCKET]: {
+                target: process.env.SERVER_HOST,
+                ws: true,
+                secure: false,
+              },
         }
     }
 }
