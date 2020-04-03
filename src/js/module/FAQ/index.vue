@@ -35,7 +35,7 @@ export default {
         init() {
             if (this.$route.query.isSkip) {
                 const errCode = this.$route.query.errCode;
-                const addr = module.data.ENVIR === 'dev' ? '***REMOVED***' : window.location.host;
+                const addr = module.data.ENVIR === 'dev' ? 'localhost:8088' : window.location.host;
                 this.visualSrc = `http://${addr}/dws/help/errorcode/${errCode}.html`;
                 this.isSkip = true;
             } else {
