@@ -4,10 +4,9 @@ Scriptis
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 English | [Chinese](docs/zh_CN/README.md)
-This project is been merged into [DataSphereStudio](https://github.com/WeBankFinTech/DataSphereStudio)
 
+### This project is been merged into [DataSphereStudio](https://github.com/WeBankFinTech/DataSphereStudio)
 ## Introduction
-
 Scriptis is for interactive data analysis with script development(SQL, Pyspark, HiveQL), task submission(Spark, Hive), UDF, function, resource management and intelligent diagnosis.
 
 ![running](docs/en_US/images/readme/running.gif)
