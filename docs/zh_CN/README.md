@@ -5,6 +5,7 @@ Scriptis
 
 [English](../../README.md) | Chinese
 
+### ！项目已被并入 [DataSphereStudio](https://github.com/WeBankFinTech/DataSphereStudio)
 ## 引言：
 
 Scriptis是一款支持在线写SQL、Pyspark、HiveQL等脚本，提交给**Linkis**（Linkis是什么？[点我了解](https://github.com/WeBankFinTech/Linkis/blob/master/docs/zh_CN/README.md)）执行的数据分析Web工具，且支持UDF、函数、资源管控和智能诊断等企业级特性。
