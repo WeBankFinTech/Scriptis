@@ -48,7 +48,7 @@ Scriptis是一款支持在线写SQL、Pyspark、HiveQL等脚本，提交给**Lin
 ## 社区
 如果您想得到最快的响应，请给我们提issue，或者您也可以扫码进群：
 
-![WeChatQQ](/docs/en_US/images/wechatQQ.png)
+![WeChatQQ](https://github.com/WeBankFinTech/WeDataSphere/assets/11496700/853e2b68-109f-42ba-a1b7-5e42d01b2865)
 
 ### 文档：
 * [部署手册](ch1/前台部署文档.md)
