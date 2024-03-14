@@ -49,7 +49,7 @@ Read the Quick Start [Quick Start](docs/en_US/ch1/Front-end_deployment_documenta
 ## Community
 If you desire immediate response, please kindly raise issues to us or scan the below QR code by WeChat and QQ to join our group:
 
-![WeChatQQ](/docs/en_US/images/wechatQQ.png)
+![WeChatQQ](https://github.com/WeBankFinTech/WeDataSphere/assets/11496700/853e2b68-109f-42ba-a1b7-5e42d01b2865)
 
 ## License
 
