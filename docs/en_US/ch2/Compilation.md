@@ -33,10 +33,14 @@ npm install
 You need to make some configurations in your code, such as port address of backend server and socket address of backend server in .env.development file in root directory.
 
 ```
-// Port address of backend server
-VUE_APP_MN_CONFIG_PREFIX=http://yourIp:yourPort/yourPath
-// Socket address
-VUE_APP_MN_CONFIG_SOCKET=/yourSocketPath
+//prefix of Backend service
+VUE_APP_MN_CONFIG_PREFIX=/api/rest_j/v1/
+//prefix of websocket service
+VUE_APP_MN_CONFIG_SOCKET=/ws/api/entrance/connect
+//server host  example http://yourIp:yourPort
+SERVER_HOST=
+//front end run port  default 8080
+PORT=
 ```
 
 You can refer to the official documentation of vue-cli for detailed explanation. [Modes and environment variables](https://cli.vuejs.org/guide/mode-and-env.html#modes)
@@ -57,30 +61,6 @@ You would need to run the following command in terminal if you want to run proje
 
 ```
 npm run serve
-```
-
-Access the application in browser (Chrome recommended) via link: [http://localhost:8080/](http://localhost:8080/) .
-
-Changes you make to the code would dynamically reflect on the
-effects shown on browser when using the method described above to run project.
-
-**Notes:  Since frontend and backend are developed separately, when running on local browser you need to allow cross domain access in order to access the port of backend server.**
-
-e.g. Chrome browser:
-
-Configuration in Windows:
-
-1. Close all browser windows.
-
-2. Create a shortcut of chrome,  right-click to choose "properties" , then go to "Shortcut" tab find "Target" and add`--args --disable-web-security --user-data-dir=C:\MyChromeDevUserData`  to it .
-3. Use shortcut to open the browser.
-
-Configuration in MacOS:
-
-Run the following command. (You need to replace "yourname" in the path. If it's not working, check the path of MyChromeDevUserData on your machine and copy its path to the place right after "--user-data-dir=")
-
-```
-open -n /Applications/Google\ Chrome.app/ --args --disable-web-security --user-data-dir=/Users/yourname/MyChromeDevUserData/
 ```
 
 ### FAQ
